@@ -1,127 +1,124 @@
-import { useState, useMemo } from 'react';
-import { Loader2, SlidersHorizontal, X, Package } from 'lucide-react';
+import { useState } from 'react';
+import { Package, RefreshCw, AlertCircle } from 'lucide-react';
 import { useGetAllProducts } from '../hooks/useQueries';
 import ProductCard from '../components/ProductCard';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 
 export default function ProductsPage() {
-  const { data: products, isLoading, error } = useGetAllProducts();
-  const [colorFilter, setColorFilter] = useState<string>('all');
+  const { data: products, isLoading, error, refetch, isFetching } = useGetAllProducts();
+  const [selectedColor, setSelectedColor] = useState<string>('All');
 
-  const uniqueColors = useMemo(() => {
-    if (!products) return [];
-    const colors = Array.from(new Set(products.map((p) => p.color)));
-    return colors.sort();
-  }, [products]);
+  const colors = ['All', ...Array.from(new Set((products ?? []).map((p) => p.color)))];
 
-  const filteredProducts = useMemo(() => {
-    if (!products) return [];
-    if (colorFilter === 'all') return products;
-    return products.filter((p) => p.color === colorFilter);
-  }, [products, colorFilter]);
+  const filtered =
+    selectedColor === 'All'
+      ? (products ?? [])
+      : (products ?? []).filter((p) => p.color === selectedColor);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-offwhite">
       {/* Page Header */}
-      <div className="bg-charcoal-dark py-14 md:py-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="text-teal-light font-body text-sm font-medium tracking-widest uppercase">
-            Our Collection
-          </span>
-          <h1 className="font-heading text-4xl md:text-5xl font-bold text-offwhite mt-3 mb-4">
-            Fabric Products
-          </h1>
-          <p className="font-body text-base text-offwhite/60 max-w-xl mx-auto">
-            Explore our full range of premium Polyester Knitted Dyed Fabrics — available in a wide spectrum of colors, weights, and widths.
+      <section className="bg-charcoal py-16">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <p className="text-teal font-body text-sm tracking-[0.3em] uppercase mb-3">Our Collection</p>
+          <h1 className="font-heading text-5xl text-white mb-4">Premium Fabrics</h1>
+          <p className="text-white/90 font-body text-lg max-w-2xl mx-auto">
+            Explore our full range of high-quality fabrics, available for bulk orders.
           </p>
         </div>
-      </div>
+      </section>
 
-      {/* Filters */}
-      <div className="border-b border-border bg-card sticky top-16 md:top-20 z-30">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap items-center gap-4">
-          <div className="flex items-center gap-2 text-sm font-body text-muted-foreground">
-            <SlidersHorizontal size={15} className="text-teal" />
-            <span>Filter by Color:</span>
-          </div>
-          <Select value={colorFilter} onValueChange={setColorFilter}>
-            <SelectTrigger className="w-48 font-body text-sm border-border">
-              <SelectValue placeholder="All Colors" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Colors</SelectItem>
-              {uniqueColors.map((color) => (
-                <SelectItem key={color} value={color}>
-                  {color}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          {colorFilter !== 'all' && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setColorFilter('all')}
-              className="text-muted-foreground hover:text-foreground font-body gap-1.5"
-            >
-              <X size={13} />
-              Clear
-            </Button>
-          )}
-          {!isLoading && (
-            <span className="ml-auto text-xs font-body text-muted-foreground">
-              {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''}
-            </span>
-          )}
-        </div>
-      </div>
-
-      {/* Products Grid */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        {isLoading ? (
-          <div className="flex items-center justify-center py-24">
-            <Loader2 size={36} className="animate-spin text-teal" />
-          </div>
-        ) : error ? (
-          <div className="text-center py-24">
-            <p className="font-body text-destructive">Failed to load products. Please try again.</p>
-          </div>
-        ) : filteredProducts.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 gap-4">
-            <div className="w-20 h-20 rounded-full bg-teal/10 border border-teal/20 flex items-center justify-center">
-              <Package size={36} className="text-teal/50" />
-            </div>
-            <p className="font-body text-lg font-medium text-foreground/70">
-              {colorFilter !== 'all' ? `No products found for "${colorFilter}"` : 'No products yet'}
-            </p>
-            <p className="font-body text-sm text-muted-foreground text-center max-w-sm">
-              {colorFilter !== 'all'
-                ? 'Try a different color filter or browse the full collection.'
-                : 'No fabric products have been added yet — check back soon!'}
-            </p>
-            {colorFilter !== 'all' && (
-              <Button
-                variant="outline"
-                className="mt-2 border-teal text-teal hover:bg-teal hover:text-offwhite font-body"
-                onClick={() => setColorFilter('all')}
-              >
-                Show All Products
-              </Button>
-            )}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-            {filteredProducts.map((product) => (
-              <ProductCard key={product.id.toString()} product={product} />
+      <div className="max-w-6xl mx-auto px-4 py-12">
+        {/* Loading State */}
+        {isLoading && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="rounded-lg overflow-hidden border border-border bg-white">
+                <Skeleton className="h-64 w-full" />
+                <div className="p-4 space-y-2">
+                  <Skeleton className="h-5 w-3/4" />
+                  <Skeleton className="h-4 w-1/2" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-2/3" />
+                </div>
+              </div>
             ))}
           </div>
+        )}
+
+        {/* Error State */}
+        {error && !isLoading && (
+          <div className="flex flex-col items-center justify-center py-24 text-center">
+            <div className="bg-red-50 border border-red-200 rounded-xl p-8 max-w-md w-full">
+              <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+              <h2 className="font-heading text-xl text-charcoal mb-2">Unable to Load Products</h2>
+              <p className="text-red-600 font-body text-sm mb-6">
+                We couldn't fetch the product list. Please try again.
+              </p>
+              <Button
+                onClick={() => refetch()}
+                disabled={isFetching}
+                className="bg-teal hover:bg-teal/90 text-white font-body"
+              >
+                {isFetching ? (
+                  <>
+                    <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                    Retrying...
+                  </>
+                ) : (
+                  <>
+                    <RefreshCw className="mr-2 h-4 w-4" />
+                    Try Again
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Products Grid */}
+        {!isLoading && !error && (
+          <>
+            {/* Color Filter */}
+            {colors.length > 1 && (
+              <div className="flex flex-wrap gap-2 mb-8">
+                {colors.map((color) => (
+                  <button
+                    key={color}
+                    onClick={() => setSelectedColor(color)}
+                    className={`px-4 py-2 rounded-full font-body text-sm transition-colors border ${
+                      selectedColor === color
+                        ? 'bg-teal text-white border-teal'
+                        : 'bg-white text-charcoal border-border hover:border-teal hover:text-teal'
+                    }`}
+                  >
+                    {color}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Empty State */}
+            {filtered.length === 0 && (
+              <div className="flex flex-col items-center justify-center py-24 text-center">
+                <Package className="h-16 w-16 text-teal/40 mb-4" />
+                <h2 className="font-heading text-2xl text-charcoal mb-2">No products yet</h2>
+                <p className="text-foreground/60 font-body max-w-sm">
+                  Our fabric collection is being updated. Please check back soon or contact us directly.
+                </p>
+              </div>
+            )}
+
+            {/* Product Cards */}
+            {filtered.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filtered.map((product) => (
+                  <ProductCard key={product.id.toString()} product={product} />
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

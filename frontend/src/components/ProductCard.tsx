@@ -1,88 +1,97 @@
 import { Link } from '@tanstack/react-router';
-import type { FabricProduct } from '../backend';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, Layers, Ruler } from 'lucide-react';
+import { Tag, Weight, Ruler, Layers } from 'lucide-react';
+import type { FabricProduct, ProductWidth } from '../backend';
+
+const IMAGE_MAP: Record<string, string> = {
+  'ferrari_cheque.jpg': '/assets/generated/ferrari-cheque-swatch.dim_800x800.jpg',
+  'ferrari-cheque.jpg': '/assets/generated/ferrari-cheque-swatch.dim_800x800.jpg',
+  'ferrari_cheque_swatch.jpg': '/assets/generated/ferrari-cheque-swatch.dim_800x800.jpg',
+};
+
+function getImageSrc(filename: string): string {
+  if (IMAGE_MAP[filename]) return IMAGE_MAP[filename];
+  if (filename.startsWith('http')) return filename;
+  return '/assets/generated/fabric-swatch-placeholder.dim_600x600.png';
+}
+
+function formatWidth(width: ProductWidth): string {
+  if (width.__kind__ === 'inches') return `${width.inches} inches`;
+  if (width.__kind__ === 'centimeters') return `${width.centimeters} cm`;
+  return 'N/A';
+}
 
 interface ProductCardProps {
   product: FabricProduct;
 }
 
-const PLACEHOLDER = '/assets/generated/fabric-swatch-placeholder.dim_600x600.png';
-
 export default function ProductCard({ product }: ProductCardProps) {
-  const imageSrc = product.imageFilename ? PLACEHOLDER : PLACEHOLDER;
+  const imageSrc = getImageSrc(product.imageFilename);
 
   return (
-    <div className="group bg-card border border-border rounded-lg overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 flex flex-col">
+    <Link
+      to="/products/$id"
+      params={{ id: product.id.toString() }}
+      className="group block bg-white rounded-lg overflow-hidden border border-border shadow-sm hover:shadow-card transition-all duration-300 hover:-translate-y-1"
+    >
       {/* Image */}
-      <div className="relative overflow-hidden aspect-square bg-muted">
+      <div className="relative h-64 overflow-hidden bg-gray-100">
         <img
           src={imageSrc}
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           onError={(e) => {
-            e.currentTarget.src = PLACEHOLDER;
+            (e.target as HTMLImageElement).src = '/assets/generated/fabric-swatch-placeholder.dim_600x600.png';
           }}
         />
         <div className="absolute top-3 left-3">
-          <Badge className="bg-teal text-offwhite text-xs font-body font-medium border-0 shadow-sm">
+          <span className="bg-teal text-white text-xs font-body px-2 py-1 rounded-full">
             {product.fabricType}
-          </Badge>
+          </span>
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-5 flex flex-col flex-1 gap-3">
-        <div>
-          <h3 className="font-heading text-lg font-semibold text-foreground leading-snug group-hover:text-teal transition-colors">
-            {product.name}
-          </h3>
-          <p className="text-sm font-body text-muted-foreground mt-1 line-clamp-2">
-            {product.description}
-          </p>
-        </div>
+      <div className="p-5">
+        <h3 className="font-heading text-xl text-charcoal mb-1 group-hover:text-teal transition-colors">
+          {product.name}
+        </h3>
+        <p className="text-foreground/60 font-body text-sm mb-4 line-clamp-2">
+          {product.description}
+        </p>
 
-        {/* Specs */}
-        <div className="flex flex-wrap gap-3 text-xs font-body text-muted-foreground">
-          <span className="flex items-center gap-1.5">
-            <Layers size={12} className="text-teal" />
-            <span className="font-medium text-foreground">{Number(product.weightGSM)} GSM</span>
-          </span>
-          <span className="flex items-center gap-1.5">
-            <Ruler size={12} className="text-teal" />
-            <span className="font-medium text-foreground">{Number(product.widthCM)} cm</span>
-          </span>
-        </div>
-
-        {/* Color */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-body text-muted-foreground">Color:</span>
-          <span className="text-xs font-body font-medium text-foreground bg-muted px-2 py-0.5 rounded-full">
-            {product.color}
-          </span>
-        </div>
-
-        {/* Price & CTA */}
-        <div className="mt-auto pt-3 border-t border-border flex items-center justify-between">
-          <div>
-            <span className="text-lg font-heading font-semibold text-teal">
-              ${product.pricePerMeter.toFixed(2)}
-            </span>
-            <span className="text-xs font-body text-muted-foreground ml-1">/meter</span>
+        {/* Specs Grid */}
+        <div className="grid grid-cols-2 gap-2 mb-4">
+          <div className="flex items-center gap-1.5 text-xs font-body text-foreground/70">
+            <Layers className="h-3.5 w-3.5 text-teal flex-shrink-0" />
+            <span>{Number(product.weightGSM)} GSM</span>
           </div>
-          <Link to="/products/$id" params={{ id: product.id.toString() }}>
-            <Button
-              size="sm"
-              variant="outline"
-              className="border-teal text-teal hover:bg-teal hover:text-offwhite font-body font-medium gap-1.5 transition-colors"
-            >
-              View Details
-              <ArrowRight size={13} />
-            </Button>
-          </Link>
+          <div className="flex items-center gap-1.5 text-xs font-body text-foreground/70">
+            <Ruler className="h-3.5 w-3.5 text-teal flex-shrink-0" />
+            <span>{formatWidth(product.width)}</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-xs font-body text-foreground/70">
+            <Weight className="h-3.5 w-3.5 text-teal flex-shrink-0" />
+            <span>Min {Number(product.minOrderQuantity)} kg</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-xs font-body text-foreground/70">
+            <Tag className="h-3.5 w-3.5 text-teal flex-shrink-0" />
+            <span>{product.color}</span>
+          </div>
+        </div>
+
+        {/* Price */}
+        <div className="flex items-center justify-between pt-3 border-t border-border">
+          <div>
+            <span className="font-heading text-lg text-charcoal">
+              ₹{product.pricePerMeter.toFixed(0)}
+            </span>
+            <span className="text-foreground/50 font-body text-xs">/++ kg</span>
+          </div>
+          <span className="text-teal font-body text-sm font-medium group-hover:underline">
+            View Details →
+          </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useGetAllInquiries } from '@/hooks/useQueries';
 import {
   Table,
@@ -137,6 +137,13 @@ export default function AdminDashboardPage() {
     error,
     refetch,
   } = useGetAllInquiries(isAuthenticated);
+
+  // When authentication state becomes true, explicitly trigger a fetch
+  useEffect(() => {
+    if (isAuthenticated) {
+      refetch();
+    }
+  }, [isAuthenticated, refetch]);
 
   if (!isAuthenticated) {
     return <PasswordScreen onSubmit={() => setIsAuthenticated(true)} />;

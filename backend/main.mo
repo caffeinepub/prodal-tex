@@ -1,4 +1,5 @@
 import Map "mo:core/Map";
+import Iter "mo:core/Iter";
 import Order "mo:core/Order";
 import Nat "mo:core/Nat";
 import Text "mo:core/Text";
@@ -6,9 +7,11 @@ import Time "mo:core/Time";
 import Runtime "mo:core/Runtime";
 import Principal "mo:core/Principal";
 import MixinAuthorization "authorization/MixinAuthorization";
-import MixinStorage "blob-storage/Mixin";
 import AccessControl "authorization/access-control";
+import MixinStorage "blob-storage/Mixin";
+import Migration "migration";
 
+(with migration = Migration.run)
 actor {
   include MixinStorage();
 
@@ -19,6 +22,8 @@ actor {
   type InquiryId = Nat;
 
   // Types
+  type ProductWidth = { #centimeters : Nat; #inches : Nat };
+
   type FabricProduct = {
     id : ProductId;
     name : Text;
@@ -26,7 +31,7 @@ actor {
     fabricType : Text;
     color : Text;
     weightGSM : Nat;
-    widthCM : Nat;
+    width : ProductWidth;
     minOrderQuantity : Nat;
     pricePerMeter : Float;
     imageFilename : Text;
@@ -63,12 +68,25 @@ actor {
   };
 
   // Persistent State
-  var nextProductId : ProductId = 0;
-  var nextInquiryId : InquiryId = 0;
-
-  // Fabric products are no longer persistent
+  let fabricProducts = Map.singleton<ProductId, FabricProduct>(
+    0,
+    {
+      id = 0;
+      name = "Ferrari Cheque";
+      description = "Premium quality 310 GSM fabric, ideal for high-end applications. 60 inch width, minimum 300kg order";
+      fabricType = "Knitted";
+      color = "Dark Grey";
+      weightGSM = 310;
+      width = #inches(60);
+      minOrderQuantity = 300;
+      pricePerMeter = 225.0;
+      imageFilename = "ferrari_cheque.jpg";
+    },
+  );
   let customerInquiries = Map.empty<InquiryId, CustomerInquiry>();
   let userProfiles = Map.empty<Principal, UserProfile>();
+  var nextProductId : ProductId = 1;
+  var nextInquiryId : InquiryId = 0;
 
   // ── User Profile Management ──────────────────────────────────────────────
 
@@ -101,7 +119,7 @@ actor {
     fabricType : Text,
     color : Text,
     weightGSM : Nat,
-    widthCM : Nat,
+    width : ProductWidth,
     minOrderQuantity : Nat,
     pricePerMeter : Float,
     imageFilename : Text,
@@ -117,27 +135,31 @@ actor {
       fabricType;
       color;
       weightGSM;
-      widthCM;
+      width;
       minOrderQuantity;
       pricePerMeter;
       imageFilename;
     };
 
+    fabricProducts.add(nextProductId, product);
     nextProductId += 1;
     product.id;
   };
 
-  public shared ({ caller }) func getProduct(_id : ProductId) : async FabricProduct {
-    Runtime.trap("No products available");
+  public query func getProduct(id : ProductId) : async FabricProduct {
+    switch (fabricProducts.get(id)) {
+      case (?product) { product };
+      case (null) { Runtime.trap("Product not found") };
+    };
   };
 
   public query func getAllProducts() : async [FabricProduct] {
-    [];
+    fabricProducts.values().toArray().sort();
   };
 
   // ── Inquiry Management ───────────────────────────────────────────────────
 
-  public shared func submitInquiry(
+  public shared ({ caller }) func submitInquiry(
     customerName : Text,
     email : Text,
     phone : Text,
@@ -146,6 +168,10 @@ actor {
     quantityRequired : Nat,
     message : Text,
   ) : async InquiryId {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only registered users can submit inquiries");
+    };
+
     let inquiry : CustomerInquiry = {
       id = nextInquiryId;
       customerName;

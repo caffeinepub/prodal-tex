@@ -1,40 +1,39 @@
 {
   "kind": "build_request",
-  "title": "Fix admin dashboard inquiries not loading (showing 'refresh the page' message)",
-  "projectName": "PRODAL TEX",
+  "title": "Fix product data not appearing — reseed backend with correct Ferrari Cheque data",
+  "projectName": "Prodal Tex",
   "priority": "high",
   "requirements": [
     {
-      "id": "REQ-35",
-      "text": "Diagnose and fix the data fetching issue in AdminDashboardPage.tsx that causes the inquiries table to display a 'refresh the page' message instead of rendering submitted inquiries. Investigate the useGetAllInquiries React Query hook in useQueries.ts and the corresponding backend getInquiries function in backend/main.mo. Ensure the query correctly calls the backend actor, handles the response (including Motoko Result/variant unwrapping), and surfaces real inquiry data in the table. Eliminate any condition or error path that triggers the 'refresh the page' fallback message when inquiries are present or the fetch is in progress.",
-      "target": "both",
+      "id": "REQ-1",
+      "text": "Fix the backend seed data so that the Ferrari Cheque fabric product (with its updated minimum order quantity and colour values) is correctly stored and returned by the `getProducts` endpoint. Ensure the product appears in the products listing on the frontend after a fresh deploy.",
+      "target": "backend",
       "source": {
         "messageIds": [
-          "msg-user-1"
+          "msg-3",
+          "msg-5"
         ],
         "quotes": [
-          "The inquiries are not showing its is showing refresh the page"
+          "can you check if the products are showing up correctly now, including the Ferrari Cheque fabric with the updated minimum order and colour",
+          "I am not able to see the changes"
         ]
       },
       "acceptanceCriteria": [
-        "After entering the correct admin password ('luckygoyal0001'), submitted inquiries are displayed in the table without any 'refresh the page' message.",
-        "The React Query hook in useQueries.ts correctly invokes the backend actor's getInquiries function and returns the inquiry array.",
-        "The backend getInquiries function in main.mo returns all stored inquiries without errors or access-control rejections for any caller.",
-        "A loading skeleton is shown while the query is in flight.",
-        "An empty-state message is shown only when zero inquiries have been submitted (not as a result of a fetch error).",
-        "Any error state shows a descriptive error message rather than the generic 'refresh the page' fallback."
+        "The `getProducts` query returns at least one product including the Ferrari Cheque fabric.",
+        "The Ferrari Cheque product has the correct updated minimum order quantity and colour values in the returned data.",
+        "The Products page on the frontend displays the Ferrari Cheque product card without errors.",
+        "The Home page featured products grid also shows the product."
       ]
     }
   ],
   "constraints": [
-    "Do not change the admin password; it must remain 'luckygoyal0001'.",
-    "Do not re-introduce Internet Identity or any third-party authentication.",
-    "Do not modify files listed in frontend.immutablePaths."
+    "Do not alter the existing product/inquiry/user data model types unless strictly necessary to fix the seed data.",
+    "All backend logic must remain within the single main actor in backend/main.mo."
   ],
   "nonGoals": [
-    "Adding new inquiry fields or changing the inquiry data model.",
-    "Changing the visual design or layout of the Admin Dashboard beyond fixing the data display bug.",
-    "Adding pagination or sorting to the inquiries table."
+    "Adding new product types or new fields beyond fixing the existing Ferrari Cheque seed entry.",
+    "Any frontend UI redesign or layout changes.",
+    "Authentication or role-based access control changes."
   ],
   "imageRequirements": {
     "required": [],

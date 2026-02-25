@@ -6,7 +6,7 @@ export default function Footer() {
   const appId = encodeURIComponent(window.location.hostname || 'prodal-tex');
 
   return (
-    <footer className="bg-charcoal-dark text-offwhite/80 border-t border-white/10">
+    <footer className="bg-charcoal-dark text-offwhite border-t border-white/10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
           {/* Brand */}
@@ -27,14 +27,14 @@ export default function Footer() {
                 PRODAL TEX
               </span>
             </div>
-            <p className="text-sm font-body leading-relaxed text-offwhite/60">
+            <p className="text-sm font-body leading-relaxed text-white/85">
               Premium Polyester Knitted Dyed Fabric — crafted for quality, designed for excellence. Trusted by manufacturers and designers worldwide.
             </p>
           </div>
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h4 className="font-heading text-base font-semibold text-offwhite tracking-wide">Quick Links</h4>
+            <h4 className="font-heading text-base font-semibold text-white tracking-wide">Quick Links</h4>
             <nav className="flex flex-col gap-2">
               {[
                 { label: 'Home', path: '/' },
@@ -44,7 +44,7 @@ export default function Footer() {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className="text-sm font-body text-offwhite/60 hover:text-teal-light transition-colors"
+                  className="text-sm font-body text-white/85 hover:text-teal-light transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -54,21 +54,21 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div className="space-y-4">
-            <h4 className="font-heading text-base font-semibold text-offwhite tracking-wide">Contact Us</h4>
+            <h4 className="font-heading text-base font-semibold text-white tracking-wide">Contact Us</h4>
             <div className="flex flex-col gap-3">
-              <div className="flex items-start gap-3 text-sm font-body text-offwhite/60">
+              <div className="flex items-start gap-3 text-sm font-body text-white/85">
                 <Mail size={15} className="mt-0.5 text-teal-light shrink-0" />
                 <a href="mailto:Lakshaypgoyal@gmail.com" className="hover:text-teal-light transition-colors break-all">
                   Lakshaypgoyal@gmail.com
                 </a>
               </div>
-              <div className="flex items-start gap-3 text-sm font-body text-offwhite/60">
+              <div className="flex items-start gap-3 text-sm font-body text-white/85">
                 <Phone size={15} className="mt-0.5 text-teal-light shrink-0" />
                 <a href="tel:+919978625857" className="hover:text-teal-light transition-colors">
                   +91 99786 25857
                 </a>
               </div>
-              <div className="flex items-start gap-3 text-sm font-body text-offwhite/60">
+              <div className="flex items-start gap-3 text-sm font-body text-white/85">
                 <MapPin size={15} className="mt-0.5 text-teal-light shrink-0" />
                 <span className="leading-relaxed">
                   Shop No. UG 18/A to 27/A, Sangini Trade Center,<br />
@@ -81,7 +81,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-body text-offwhite/40">
+        <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-body text-white/70">
           <span>© {year} PRODAL TEX. All rights reserved.</span>
           <span className="flex items-center gap-1">
             Built with{' '}

@@ -1,246 +1,161 @@
 import { Link } from '@tanstack/react-router';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ArrowRight, CheckCircle2, Package, Truck, Award, Loader2 } from 'lucide-react';
-import ProductCard from '../components/ProductCard';
+import { ArrowRight, Award, Globe, Truck, ChevronRight } from 'lucide-react';
 import { useGetAllProducts } from '../hooks/useQueries';
-
-const sellingPoints = [
-  {
-    icon: Award,
-    title: 'Premium Quality',
-    description: 'Every fabric roll meets rigorous quality standards — consistent color, weight, and texture across every batch.',
-  },
-  {
-    icon: Package,
-    title: 'Wide Color Range',
-    description: 'From bold primaries to subtle pastels, our dyed fabric collection spans hundreds of shades to match any design vision.',
-  },
-  {
-    icon: Truck,
-    title: 'Bulk Availability',
-    description: 'Reliable supply for large-scale manufacturing with flexible minimum order quantities and fast dispatch.',
-  },
-  {
-    icon: CheckCircle2,
-    title: 'Certified Fabric',
-    description: 'Our Polyester Knitted Dyed Fabrics are tested for colorfastness, shrinkage, and durability to international standards.',
-  },
-];
+import ProductCard from '../components/ProductCard';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function HomePage() {
-  const { data: products, isLoading } = useGetAllProducts();
-
-  const featuredProducts = products?.slice(0, 3) ?? [];
+  const { data: products, isLoading, error } = useGetAllProducts();
 
   return (
-    <div className="flex flex-col">
-      {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[520px] md:min-h-[600px] flex items-center overflow-hidden bg-charcoal-dark">
-        {/* Hero Image */}
-        <div className="absolute inset-0">
-          <img
-            src="/assets/generated/fabric-hero-banner.dim_1400x600.png"
-            alt="Premium Polyester Knitted Dyed Fabric"
-            className="w-full h-full object-cover opacity-70"
-            onError={(e) => {
-              (e.target as HTMLImageElement).style.display = 'none';
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal-dark/90 via-charcoal-dark/60 to-charcoal-dark/30" />
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section
+        className="relative min-h-[85vh] flex items-center justify-center bg-cover bg-center"
+        style={{ backgroundImage: "url('/assets/generated/fabric-hero-banner.dim_1400x600.png')" }}
+      >
+        <div className="absolute inset-0 bg-charcoal/70" />
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+          <p className="text-teal font-body text-sm tracking-[0.3em] uppercase mb-4">
+            Premium Fabric Supplier
+          </p>
+          <h1 className="font-heading text-5xl md:text-7xl text-white mb-6 leading-tight">
+            Crafting Excellence<br />in Every Thread
+          </h1>
+          <p className="text-white/90 font-body text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+            PRODAL TEX delivers premium quality fabrics to manufacturers and designers worldwide.
+            Trusted for consistency, quality, and reliability.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg" className="bg-teal hover:bg-teal/90 text-white font-body px-8">
+              <Link to="/products">Explore Fabrics <ArrowRight className="ml-2 h-4 w-4" /></Link>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-charcoal font-body px-8">
+              <Link to="/contact">Get a Quote</Link>
+            </Button>
+          </div>
         </div>
+      </section>
 
-        {/* Hero Content */}
-        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="max-w-2xl">
-            <span className="inline-block text-teal-light font-body text-sm font-medium tracking-widest uppercase mb-4">
-              Premium Textile Manufacturer
-            </span>
-            <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-offwhite leading-tight mb-6">
-              PRODAL TEX
-              <span className="block text-teal-light italic font-normal text-3xl md:text-4xl mt-2">
-                Polyester Knitted Dyed Fabric
-              </span>
-            </h1>
-            <p className="font-body text-base md:text-lg text-offwhite/80 leading-relaxed mb-8 max-w-xl">
-              Supplying premium quality Polyester Knitted Dyed Fabrics to manufacturers, designers, and retailers worldwide. Exceptional color consistency, superior texture, and reliable bulk supply.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link to="/products">
-                <Button
-                  size="lg"
-                  className="bg-teal hover:bg-teal-light text-offwhite font-body font-medium tracking-wide gap-2 border-0 shadow-lg"
-                >
-                  Browse Collection
-                  <ArrowRight size={18} />
-                </Button>
-              </Link>
-              <Link to="/contact">
-                <Button
-                  size="lg"
-                  className="bg-charcoal hover:bg-charcoal-light text-offwhite font-body font-medium tracking-wide border border-offwhite/40 hover:border-offwhite/60 shadow-lg"
-                >
-                  Request a Quote
-                </Button>
-              </Link>
+      {/* Features Strip */}
+      <section className="bg-charcoal py-8">
+        <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            { icon: Award, title: 'Premium Quality', desc: 'ISO certified manufacturing with rigorous quality control' },
+            { icon: Globe, title: 'Global Export', desc: 'Supplying to manufacturers across 20+ countries' },
+            { icon: Truck, title: 'Bulk Orders', desc: 'Minimum order quantities starting from 300 kg' },
+          ].map(({ icon: Icon, title, desc }) => (
+            <div key={title} className="flex items-start gap-4 text-white">
+              <div className="p-2 bg-teal/20 rounded-lg flex-shrink-0">
+                <Icon className="h-6 w-6 text-teal" />
+              </div>
+              <div>
+                <h3 className="font-heading text-base font-semibold mb-1">{title}</h3>
+                <p className="text-white/90 font-body text-sm">{desc}</p>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* ── Brand Strip ──────────────────────────────────────────────────── */}
-      <section className="bg-teal py-4">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12 text-offwhite/90 font-body text-sm font-medium tracking-wide">
-            {['Polyester Knitted', 'Dyed Fabric', 'Bulk Orders', 'Custom Colors', 'Fast Dispatch'].map((item, i) => (
-              <span key={i} className="flex items-center gap-2">
-                <span className="w-1 h-1 rounded-full bg-offwhite/60" />
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── About / Intro ─────────────────────────────────────────────────── */}
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center">
-            <span className="text-teal font-body text-sm font-medium tracking-widest uppercase">About PRODAL TEX</span>
-            <h2 className="font-heading text-3xl md:text-4xl font-semibold text-foreground mt-3 mb-6">
-              Crafting Excellence in Every Thread
-            </h2>
-            <p className="font-body text-base md:text-lg text-muted-foreground leading-relaxed">
-              At PRODAL TEX, we specialize in manufacturing and supplying premium Polyester Knitted Dyed Fabrics. Our state-of-the-art dyeing processes ensure vibrant, long-lasting colors while maintaining the soft hand-feel and durability that our clients demand. From fashion apparel to sportswear and home textiles, our fabrics power the world's leading brands.
+      {/* Featured Products */}
+      <section className="py-20 bg-offwhite">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <p className="text-teal font-body text-sm tracking-[0.3em] uppercase mb-3">Our Collection</p>
+            <h2 className="font-heading text-4xl text-charcoal mb-4">Featured Fabrics</h2>
+            <p className="text-foreground/70 font-body max-w-xl mx-auto">
+              Explore our curated selection of premium fabrics, crafted for quality and performance.
             </p>
           </div>
-        </div>
-      </section>
 
-      {/* ── Selling Points ────────────────────────────────────────────────── */}
-      <section className="py-16 md:py-20 bg-secondary/30">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="text-teal font-body text-sm font-medium tracking-widest uppercase">Why Choose Us</span>
-            <h2 className="font-heading text-3xl md:text-4xl font-semibold text-foreground mt-3">
-              The PRODAL TEX Difference
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-            {sellingPoints.map((point) => {
-              const Icon = point.icon;
-              return (
-                <div
-                  key={point.title}
-                  className="bg-card border border-border rounded-lg p-6 flex flex-col gap-4 shadow-xs hover:shadow-card transition-shadow"
-                >
-                  <div className="w-11 h-11 rounded-md bg-teal/10 flex items-center justify-center">
-                    <Icon size={22} className="text-teal" />
-                  </div>
-                  <div>
-                    <h3 className="font-heading text-base font-semibold text-foreground mb-2">{point.title}</h3>
-                    <p className="font-body text-sm text-muted-foreground leading-relaxed">{point.description}</p>
+          {isLoading && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="rounded-lg overflow-hidden border border-border">
+                  <Skeleton className="h-64 w-full" />
+                  <div className="p-4 space-y-2">
+                    <Skeleton className="h-5 w-3/4" />
+                    <Skeleton className="h-4 w-1/2" />
+                    <Skeleton className="h-4 w-full" />
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Clothing Section ──────────────────────────────────────────────── */}
-      <section className="py-16 md:py-24 bg-charcoal-dark">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div>
-              <span className="text-teal-light font-body text-sm font-medium tracking-widest uppercase">Ready-Made Garments</span>
-              <h2 className="font-heading text-3xl md:text-4xl font-semibold text-offwhite mt-2">
-                Clothing
-              </h2>
-              <p className="font-body text-base text-offwhite/60 mt-2">
-                Premium ready-made garments crafted from our finest fabrics
-              </p>
+              ))}
             </div>
-            <Badge
-              variant="outline"
-              className="self-start sm:self-auto border-teal-light/40 text-teal-light font-body text-xs tracking-widest uppercase px-3 py-1.5"
-            >
-              Coming Soon
-            </Badge>
-          </div>
-        </div>
-      </section>
+          )}
 
-      {/* ── Fabrics Section ───────────────────────────────────────────────── */}
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
-            <div>
-              <span className="text-teal font-body text-sm font-medium tracking-widest uppercase">Our Collection</span>
-              <h2 className="font-heading text-3xl md:text-4xl font-semibold text-foreground mt-2">
-                Fabrics
-              </h2>
-              <p className="font-body text-base text-muted-foreground mt-2">
-                Premium textile materials for every manufacturing need
-              </p>
+          {error && (
+            <div className="text-center py-12">
+              <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md mx-auto">
+                <p className="text-red-700 font-body font-medium mb-2">Unable to load products</p>
+                <p className="text-red-600 font-body text-sm">Please try again later or contact us directly.</p>
+              </div>
             </div>
-            <Link to="/products">
-              <Button
-                variant="outline"
-                className="border-teal text-teal hover:bg-teal hover:text-offwhite font-body font-medium gap-2 transition-colors"
-              >
-                View All Fabrics
-                <ArrowRight size={15} />
-              </Button>
-            </Link>
-          </div>
+          )}
 
-          {isLoading ? (
-            <div className="flex items-center justify-center py-20">
-              <Loader2 size={32} className="animate-spin text-teal" />
-            </div>
-          ) : featuredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {featuredProducts.map((product) => (
+          {!isLoading && !error && products && products.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {products.slice(0, 3).map((product) => (
                 <ProductCard key={product.id.toString()} product={product} />
               ))}
             </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center py-16 gap-4">
-              <div className="w-16 h-16 rounded-full bg-teal/10 border border-teal/20 flex items-center justify-center">
-                <Package size={28} className="text-teal/60" />
-              </div>
-              <p className="font-body text-base font-medium text-foreground/70">
-                No products yet
-              </p>
-              <p className="font-body text-sm text-muted-foreground text-center max-w-xs">
-                Check back soon — our fabric collection will be listed here shortly.
-              </p>
+          )}
+
+          {!isLoading && !error && products && products.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-foreground/60 font-body">No products available yet. Check back soon!</p>
             </div>
           )}
+
+          <div className="text-center mt-12">
+            <Button asChild variant="outline" className="border-teal text-teal hover:bg-teal hover:text-white font-body px-8">
+              <Link to="/products">View All Fabrics <ChevronRight className="ml-1 h-4 w-4" /></Link>
+            </Button>
+          </div>
         </div>
       </section>
 
-      {/* ── CTA Banner ────────────────────────────────────────────────────── */}
-      <section className="py-16 md:py-20 bg-charcoal-dark">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-heading text-3xl md:text-4xl font-semibold text-offwhite mb-4">
-            Ready to Order Premium Fabric?
-          </h2>
-          <p className="font-body text-base text-offwhite/60 mb-8 max-w-xl mx-auto">
-            Contact our team for pricing, samples, and bulk order inquiries. We respond within 24 hours.
-          </p>
-          <Link to="/contact">
-            <Button
-              size="lg"
-              className="bg-teal hover:bg-teal-light text-offwhite font-body font-medium tracking-wide gap-2 border-0 shadow-lg"
-            >
-              Contact PRODAL TEX
-              <ArrowRight size={18} />
+      {/* Clothing Section */}
+      <section
+        className="relative py-24 bg-cover bg-center"
+        style={{ backgroundImage: "url('/assets/generated/combined-fabrics-clothing-banner.dim_1400x600.png')" }}
+      >
+        <div className="absolute inset-0 bg-charcoal/65" />
+        <div className="relative z-10 max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+          <div className="flex-1 text-white">
+            <p className="text-teal font-body text-sm tracking-[0.3em] uppercase mb-3">From Fabric to Fashion</p>
+            <h2 className="font-heading text-4xl md:text-5xl mb-6 leading-tight">
+              Powering the Clothing Industry
+            </h2>
+            <p className="text-white/90 font-body text-lg mb-8 leading-relaxed">
+              Our fabrics are trusted by leading garment manufacturers and fashion brands.
+              From sportswear to formal wear, PRODAL TEX delivers the quality your designs deserve.
+            </p>
+            <Button asChild className="bg-teal hover:bg-teal/90 text-white font-body">
+              <Link to="/contact">Partner With Us <ArrowRight className="ml-2 h-4 w-4" /></Link>
             </Button>
-          </Link>
+          </div>
+          <div className="flex-1">
+            <img
+              src="/assets/generated/clothing-category-banner.dim_600x400.png"
+              alt="Clothing manufacturing"
+              className="rounded-lg shadow-2xl w-full object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Banner */}
+      <section className="bg-teal py-16">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="font-heading text-4xl text-white mb-4">Ready to Source Premium Fabrics?</h2>
+          <p className="text-white/90 font-body text-lg mb-8">
+            Contact our team today for bulk pricing, samples, and custom orders.
+          </p>
+          <Button asChild size="lg" className="bg-white text-teal hover:bg-offwhite font-body px-10">
+            <Link to="/contact">Request a Quote Today</Link>
+          </Button>
         </div>
       </section>
     </div>

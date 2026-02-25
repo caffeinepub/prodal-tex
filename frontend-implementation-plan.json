@@ -1,31 +1,6 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Fix admin dashboard inquiries not loading (showing 'refresh the page' message)",
-  "requirements": [
-    {
-      "id": "REQ-35",
-      "summary": "Fix the data fetching issue in AdminDashboardPage.tsx that prevents inquiries from displaying, showing a 'refresh the page' message instead. Investigate and correct the useGetAllInquiries React Query hook and ensure proper backend response handling, eliminate fallback error messages when data is available or loading.",
-      "acceptanceCriteria": [
-        "After entering the correct admin password ('luckygoyal0001'), submitted inquiries are displayed in the table without any 'refresh the page' message.",
-        "The React Query hook in useQueries.ts correctly invokes the backend actor's getAllInquiries function and returns the inquiry array.",
-        "The backend getAllInquiries function in main.mo returns all stored inquiries without errors or access-control rejections for any caller.",
-        "A loading skeleton is shown while the query is in flight.",
-        "An empty-state message is shown only when zero inquiries have been submitted (not as a result of a fetch error).",
-        "Any error state shows a descriptive error message rather than the generic 'refresh the page' fallback."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/hooks/useQueries.ts",
-          "operation": "modify",
-          "description": "Fix the useGetAllInquiries hook to properly call actor.getAllInquiries() (not getInquiries), ensure the query is enabled only when actor is available, handle the response correctly without assuming Motoko Result/variant unwrapping (the backend interface shows getAllInquiries returns Promise<Array<CustomerInquiry>> directly), add proper error handling, and ensure the query key matches usage in AdminDashboardPage."
-        },
-        {
-          "path": "frontend/src/pages/AdminDashboardPage.tsx",
-          "operation": "modify",
-          "description": "Fix the inquiries display logic to correctly use the data, isLoading, and error states from useGetAllInquiries. Show the loading skeleton only when isLoading is true, display the inquiries table when data is available (even if empty array), show an appropriate empty state only when data is an empty array (not when undefined or loading), and display a descriptive error message (not 'refresh the page') only when error state is present. Remove any condition that incorrectly triggers the 'refresh the page' message when inquiries exist or are loading."
-        }
-      ]
-    }
-  ]
+  "title": "Frontend verification for Ferrari Cheque product data display",
+  "requirements": []
 }

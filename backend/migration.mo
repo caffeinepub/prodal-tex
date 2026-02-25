@@ -1,79 +1,79 @@
 import Map "mo:core/Map";
 import Nat "mo:core/Nat";
-import Principal "mo:core/Principal";
-import Time "mo:core/Time";
 
 module {
-  type OldFabricProduct = {
-    id : Nat;
+  type ProductId = Nat;
+  type InquiryId = Nat;
+
+  type ProductWidth = { #centimeters : Nat; #inches : Nat };
+
+  type FabricProduct = {
+    id : ProductId;
     name : Text;
     description : Text;
     fabricType : Text;
     color : Text;
     weightGSM : Nat;
-    widthCM : Nat;
+    width : ProductWidth;
     minOrderQuantity : Nat;
     pricePerMeter : Float;
     imageFilename : Text;
   };
 
-  type OldCustomerInquiry = {
-    id : Nat;
+  type CustomerInquiry = {
+    id : InquiryId;
     customerName : Text;
     email : Text;
     phone : Text;
     companyName : ?Text;
-    productId : Nat;
+    productId : ProductId;
     quantityRequired : Nat;
     message : Text;
-    timestamp : Time.Time;
+    timestamp : Int;
+  };
+
+  type UserProfile = {
+    name : Text;
+    email : Text;
+    company : ?Text;
   };
 
   type OldActor = {
-    nextProductId : Nat;
-    nextInquiryId : Nat;
-    fabricProducts : Map.Map<Nat, OldFabricProduct>;
-    customerInquiries : Map.Map<Nat, OldCustomerInquiry>;
-  };
-
-  type NewFabricProduct = {
-    id : Nat;
-    name : Text;
-    description : Text;
-    fabricType : Text;
-    color : Text;
-    weightGSM : Nat;
-    widthCM : Nat;
-    minOrderQuantity : Nat;
-    pricePerMeter : Float;
-    imageFilename : Text;
-  };
-
-  type NewCustomerInquiry = {
-    id : Nat;
-    customerName : Text;
-    email : Text;
-    phone : Text;
-    companyName : ?Text;
-    productId : Nat;
-    quantityRequired : Nat;
-    message : Text;
-    timestamp : Time.Time;
+    fabricProducts : Map.Map<ProductId, FabricProduct>;
+    customerInquiries : Map.Map<InquiryId, CustomerInquiry>;
+    userProfiles : Map.Map<Principal, UserProfile>;
+    nextProductId : ProductId;
+    nextInquiryId : InquiryId;
   };
 
   type NewActor = {
-    nextProductId : Nat;
-    nextInquiryId : Nat;
-    fabricProducts : Map.Map<Nat, NewFabricProduct>;
-    customerInquiries : Map.Map<Nat, NewCustomerInquiry>;
+    fabricProducts : Map.Map<ProductId, FabricProduct>;
+    customerInquiries : Map.Map<InquiryId, CustomerInquiry>;
+    userProfiles : Map.Map<Principal, UserProfile>;
+    nextProductId : ProductId;
+    nextInquiryId : InquiryId;
   };
 
   public func run(old : OldActor) : NewActor {
+    let fabricProducts = Map.singleton<ProductId, FabricProduct>(
+      0,
+      {
+        id = 0;
+        name = "Ferrari Cheque";
+        description = "Premium quality 310 GSM fabric, ideal for high-end applications. 60 inch width, minimum 300kg order";
+        fabricType = "Knitted";
+        color = "Dark Grey";
+        weightGSM = 310;
+        width = #inches(60);
+        minOrderQuantity = 300;
+        pricePerMeter = 225.0;
+        imageFilename = "ferrari_cheque.jpg";
+      },
+    );
     {
-      nextProductId = old.nextProductId;
-      nextInquiryId = old.nextInquiryId;
-      fabricProducts = old.fabricProducts;
-      customerInquiries = old.customerInquiries;
+      old with
+      fabricProducts;
+      nextProductId = 1;
     };
   };
 };

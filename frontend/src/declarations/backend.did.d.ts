@@ -26,15 +26,17 @@ export interface FabricProduct {
   'minOrderQuantity' : bigint,
   'weightGSM' : bigint,
   'fabricType' : string,
-  'widthCM' : bigint,
   'name' : string,
   'color' : string,
   'imageFilename' : string,
   'description' : string,
   'pricePerMeter' : number,
+  'width' : ProductWidth,
 }
 export type InquiryId = bigint;
 export type ProductId = bigint;
+export type ProductWidth = { 'centimeters' : bigint } |
+  { 'inches' : bigint };
 export type Time = bigint;
 export interface UserProfile {
   'name' : string,
@@ -73,7 +75,17 @@ export interface _SERVICE {
   '_caffeineStorageUpdateGatewayPrincipals' : ActorMethod<[], undefined>,
   '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
   'addProduct' : ActorMethod<
-    [string, string, string, string, bigint, bigint, bigint, number, string],
+    [
+      string,
+      string,
+      string,
+      string,
+      bigint,
+      ProductWidth,
+      bigint,
+      number,
+      string,
+    ],
     ProductId
   >,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,

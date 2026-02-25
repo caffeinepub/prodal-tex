@@ -1,11 +1,32 @@
 import { useParams, Link, useNavigate } from '@tanstack/react-router';
-import { Loader2, ArrowLeft, Layers, Ruler, Package, DollarSign, Tag, MessageSquare } from 'lucide-react';
+import { Loader2, ArrowLeft, Layers, Ruler, Package, Tag, MessageSquare, IndianRupee } from 'lucide-react';
 import { useGetProduct } from '../hooks/useQueries';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import type { ProductWidth } from '../backend';
 
 const PLACEHOLDER = '/assets/generated/fabric-swatch-placeholder.dim_600x600.png';
+
+// Map backend imageFilename values to actual static asset paths
+const IMAGE_MAP: Record<string, string> = {
+  'ferrari_cheque.jpg': '/assets/IMG_8128-1.jpeg',
+  'ferrari-cheque.jpg': '/assets/IMG_8128-1.jpeg',
+  'ferrari-cheque-swatch.jpg': '/assets/IMG_8128-1.jpeg',
+};
+
+function resolveImageSrc(imageFilename: string): string {
+  if (!imageFilename) return PLACEHOLDER;
+  if (IMAGE_MAP[imageFilename]) return IMAGE_MAP[imageFilename];
+  return `/assets/${imageFilename}`;
+}
+
+function formatWidth(width: ProductWidth): string {
+  if (width.__kind__ === 'inches') {
+    return `${Number(width.inches)} inches`;
+  }
+  return `${Number(width.centimeters)} cm`;
+}
 
 export default function ProductDetailPage() {
   const { id } = useParams({ from: '/products/$id' });
@@ -35,11 +56,13 @@ export default function ProductDetailPage() {
     );
   }
 
+  const imageSrc = resolveImageSrc(product.imageFilename);
+
   const specs = [
     { icon: Layers, label: 'Weight', value: `${Number(product.weightGSM)} GSM` },
-    { icon: Ruler, label: 'Width', value: `${Number(product.widthCM)} cm` },
-    { icon: Package, label: 'Min. Order', value: `${Number(product.minOrderQuantity)} meters` },
-    { icon: DollarSign, label: 'Price', value: `$${product.pricePerMeter.toFixed(2)} / meter` },
+    { icon: Ruler, label: 'Width', value: formatWidth(product.width) },
+    { icon: Package, label: 'Min. Order', value: `${Number(product.minOrderQuantity)} kg` },
+    { icon: IndianRupee, label: 'Rate', value: `₹${product.pricePerMeter.toFixed(0)}/++ kg` },
     { icon: Tag, label: 'Fabric Type', value: product.fabricType },
     { icon: MessageSquare, label: 'Color', value: product.color },
   ];
@@ -66,7 +89,7 @@ export default function ProductDetailPage() {
           <div className="space-y-4">
             <div className="rounded-lg overflow-hidden border border-border shadow-card bg-muted aspect-square">
               <img
-                src={PLACEHOLDER}
+                src={imageSrc}
                 alt={product.name}
                 className="w-full h-full object-cover"
                 onError={(e) => { e.currentTarget.src = PLACEHOLDER; }}
@@ -91,9 +114,9 @@ export default function ProductDetailPage() {
             {/* Price */}
             <div className="flex items-baseline gap-2">
               <span className="font-heading text-3xl font-bold text-teal">
-                ${product.pricePerMeter.toFixed(2)}
+                ₹{product.pricePerMeter.toFixed(0)}
               </span>
-              <span className="font-body text-sm text-muted-foreground">per meter</span>
+              <span className="font-body text-sm text-muted-foreground">/++ kg</span>
             </div>
 
             <Separator />
@@ -141,7 +164,7 @@ export default function ProductDetailPage() {
             </div>
 
             <p className="text-xs font-body text-muted-foreground">
-              Minimum order quantity: <strong>{Number(product.minOrderQuantity)} meters</strong>. Contact us for custom quantities or color matching.
+              Minimum order quantity: <strong>{Number(product.minOrderQuantity)} kg</strong>. Contact us for custom quantities or color matching.
             </p>
           </div>
         </div>

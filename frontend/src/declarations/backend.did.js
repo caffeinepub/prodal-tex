@@ -19,6 +19,10 @@ export const _CaffeineStorageRefillResult = IDL.Record({
   'success' : IDL.Opt(IDL.Bool),
   'topped_up_amount' : IDL.Opt(IDL.Nat),
 });
+export const ProductWidth = IDL.Variant({
+  'centimeters' : IDL.Nat,
+  'inches' : IDL.Nat,
+});
 export const ProductId = IDL.Nat;
 export const UserRole = IDL.Variant({
   'admin' : IDL.Null,
@@ -43,12 +47,12 @@ export const FabricProduct = IDL.Record({
   'minOrderQuantity' : IDL.Nat,
   'weightGSM' : IDL.Nat,
   'fabricType' : IDL.Text,
-  'widthCM' : IDL.Nat,
   'name' : IDL.Text,
   'color' : IDL.Text,
   'imageFilename' : IDL.Text,
   'description' : IDL.Text,
   'pricePerMeter' : IDL.Float64,
+  'width' : ProductWidth,
 });
 export const UserProfile = IDL.Record({
   'name' : IDL.Text,
@@ -91,7 +95,7 @@ export const idlService = IDL.Service({
         IDL.Text,
         IDL.Text,
         IDL.Nat,
-        IDL.Nat,
+        ProductWidth,
         IDL.Nat,
         IDL.Float64,
         IDL.Text,
@@ -104,7 +108,7 @@ export const idlService = IDL.Service({
   'getAllProducts' : IDL.Func([], [IDL.Vec(FabricProduct)], ['query']),
   'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
-  'getProduct' : IDL.Func([ProductId], [FabricProduct], []),
+  'getProduct' : IDL.Func([ProductId], [FabricProduct], ['query']),
   'getUserProfile' : IDL.Func(
       [IDL.Principal],
       [IDL.Opt(UserProfile)],
@@ -141,6 +145,10 @@ export const idlFactory = ({ IDL }) => {
     'success' : IDL.Opt(IDL.Bool),
     'topped_up_amount' : IDL.Opt(IDL.Nat),
   });
+  const ProductWidth = IDL.Variant({
+    'centimeters' : IDL.Nat,
+    'inches' : IDL.Nat,
+  });
   const ProductId = IDL.Nat;
   const UserRole = IDL.Variant({
     'admin' : IDL.Null,
@@ -165,12 +173,12 @@ export const idlFactory = ({ IDL }) => {
     'minOrderQuantity' : IDL.Nat,
     'weightGSM' : IDL.Nat,
     'fabricType' : IDL.Text,
-    'widthCM' : IDL.Nat,
     'name' : IDL.Text,
     'color' : IDL.Text,
     'imageFilename' : IDL.Text,
     'description' : IDL.Text,
     'pricePerMeter' : IDL.Float64,
+    'width' : ProductWidth,
   });
   const UserProfile = IDL.Record({
     'name' : IDL.Text,
@@ -213,7 +221,7 @@ export const idlFactory = ({ IDL }) => {
           IDL.Text,
           IDL.Text,
           IDL.Nat,
-          IDL.Nat,
+          ProductWidth,
           IDL.Nat,
           IDL.Float64,
           IDL.Text,
@@ -226,7 +234,7 @@ export const idlFactory = ({ IDL }) => {
     'getAllProducts' : IDL.Func([], [IDL.Vec(FabricProduct)], ['query']),
     'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
-    'getProduct' : IDL.Func([ProductId], [FabricProduct], []),
+    'getProduct' : IDL.Func([ProductId], [FabricProduct], ['query']),
     'getUserProfile' : IDL.Func(
         [IDL.Principal],
         [IDL.Opt(UserProfile)],

@@ -1,26 +1,4 @@
 {
   "kind": "feature_evidence_report",
-  "features": [
-    {
-      "featureId": "feature-diagnose-and-fix-the-data-fetching-issue-in-admindashboardpage-tsx-that-causes-the-inquiries-table-to-display-a-refresh-the-page-message-instead-of-rendering-submitted-inquiries-investigate-the-usegetallinquiries-react-query-hook-in-usequeries-ts-and-the-corresponding-backend-getinquiries-function-in-backend-main-mo-ensure-the-query-correctly-calls-the-backend-actor-handles-the-response-including-motoko-result-variant-unwrapping-and-surfaces-real-inquiry-data-in-the-table-eliminate-any-condition-or-error-path-that-triggers-the-refresh-the-page-fallback-message-when-inquiries-are-present-or-the-fetch-is-in-progress",
-      "featureTitle": "Diagnose and fix the data fetching issue in AdminDashboardPage.tsx that causes the inquiries table to display a 'refresh the page' message instead of rendering submitted inquiries. Investigate the useGetAllInquiries React Query hook in useQueries.ts and the corresponding backend getInquiries function in backend/main.mo. Ensure the query correctly calls the backend actor, handles the response (including Motoko Result/variant unwrapping), and surfaces real inquiry data in the table. Eliminate any condition or error path that triggers the 'refresh the page' fallback message when inquiries are present or the fetch is in progress.",
-      "files": [
-        "frontend/src/hooks/useQueries.ts",
-        "frontend/src/pages/AdminDashboardPage.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0",
-        "authorization@4.0.0",
-        "blob-storage@4.0.0"
-      ],
-      "testIds": [
-        "REQ-35"
-      ],
-      "confidence": "high"
-    }
-  ]
+  "features": []
 }

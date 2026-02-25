@@ -20,18 +20,25 @@ export interface CustomerInquiry {
     phone: string;
     quantityRequired: bigint;
 }
+export type ProductWidth = {
+    __kind__: "centimeters";
+    centimeters: bigint;
+} | {
+    __kind__: "inches";
+    inches: bigint;
+};
 export type ProductId = bigint;
 export interface FabricProduct {
     id: ProductId;
     minOrderQuantity: bigint;
     weightGSM: bigint;
     fabricType: string;
-    widthCM: bigint;
     name: string;
     color: string;
     imageFilename: string;
     description: string;
     pricePerMeter: number;
+    width: ProductWidth;
 }
 export interface UserProfile {
     name: string;
@@ -44,13 +51,13 @@ export enum UserRole {
     guest = "guest"
 }
 export interface backendInterface {
-    addProduct(name: string, description: string, fabricType: string, color: string, weightGSM: bigint, widthCM: bigint, minOrderQuantity: bigint, pricePerMeter: number, imageFilename: string): Promise<ProductId>;
+    addProduct(name: string, description: string, fabricType: string, color: string, weightGSM: bigint, width: ProductWidth, minOrderQuantity: bigint, pricePerMeter: number, imageFilename: string): Promise<ProductId>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
     getAllInquiries(): Promise<Array<CustomerInquiry>>;
     getAllProducts(): Promise<Array<FabricProduct>>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
-    getProduct(_id: ProductId): Promise<FabricProduct>;
+    getProduct(id: ProductId): Promise<FabricProduct>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
