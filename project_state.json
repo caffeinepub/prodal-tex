@@ -1,18 +1,21 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 15,
-  "summary": "E-commerce website for 'Prodal Tex' selling premium Polyester Knitted dyed fabric.",
+  "projectStateVersion": 27,
+  "summary": "E-commerce website for 'Prodal Tex' selling premium Polyester Knitted dyed fabric and clothing (t-shirts, lowers, coats). The site has two product sections: 'Clothing' and 'Fabrics' — both currently empty with no products; products will be added later. The Clothing sub-category columns (T-Shirts, Lowers, Coats) are being removed from the homepage/products page.",
   "architectural_notes": [
     "Niche: premium Polyester Knitted dyed fabric sales",
     "Brand name displayed as 'PRODAL TEX' (all caps)",
     "Admin dashboard (/admin) must be protected and only accessible to authorized admin users",
-    "Admin access is restricted to a specific principal tied to lakshaypgoyal@gmail.com or phone 9978625857 — not all authenticated Internet Identity users"
+    "Admin access is now password-protected with password 'luckygoyal0001' — no Internet Identity or Google login",
+    "Site now has two product categories: 'Clothing' (t-shirts, lowers, coats) and 'Fabrics' — clothing items to be populated later",
+    "Both 'Clothing' and 'Fabrics' sections currently have no products — products will be added later by the owner"
   ],
   "known_issues": [
     "'Request a Quote' button/section not visible due to white-on-white color contrast issue",
-    "Inquiry/enquiry data on the admin dashboard is currently visible to all users — needs access restriction"
+    "Homepage hero/profile photo is missing or not displaying",
+    "Admin dashboard shows 'refresh the page' message instead of displaying inquiries"
   ],
-  "isFixRequest": false,
+  "isFixRequest": true,
   "existing_features": [
     {
       "id": "feature-create-a-visually-striking-homepage-for-prodal-tex-that-includes-a-hero-section-with-brand-headline-a-brief-brand-introduction-emphasizing-premium-quality-polyester-knitted-dyed-fabric-a-featured-products-collections-section-key-selling-points-e-g-quality-variety-of-colors-bulk-availability-and-a-call-to-action-directing-visitors-to-browse-products-or-contact-for-orders",
@@ -157,6 +160,86 @@
         "REQ-22"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-remove-all-internet-identity-authentication-from-the-admin-flow-replace-it-with-a-simple-client-side-password-prompt-on-the-admin-dashboard-page-the-user-must-enter-the-password-luckygoyal0001-to-access-the-inquiries-table-if-the-password-is-incorrect-display-an-error-message-if-correct-render-the-inquiries-table-no-other-login-method-internet-identity-google-or-any-third-party-should-remain-anywhere-in-the-application",
+      "title": "Remove all Internet Identity authentication from the admin flow. Replace it with a simple client-side password prompt on the Admin Dashboard page. The user must enter the password 'luckygoyal0001' to access the inquiries table. If the password is incorrect, display an error message. If correct, render the inquiries table. No other login method (Internet Identity, Google, or any third-party) should remain anywhere in the application.",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-the-login-logout-button-and-any-internet-identity-related-ui-controls-from-the-site-header-component-both-desktop-and-mobile-layouts-the-header-should-no-longer-reference-or-use-the-useinternetidentity-hook-for-rendering-login-logout-controls",
+      "title": "Remove the login/logout button and any Internet Identity-related UI controls from the site Header component (both desktop and mobile layouts). The header should no longer reference or use the useInternetIdentity hook for rendering login/logout controls.",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-homepage-hero-profile-section-displays-a-visible-photo-the-hero-banner-image-fabric-hero-banner-dim-1400x600-png-from-frontend-public-assets-generated-must-be-rendered-and-clearly-visible-in-the-hero-section-of-homepage-tsx-diagnose-and-fix-any-css-path-or-rendering-issue-that-causes-the-image-to-not-appear",
+      "title": "Ensure the homepage hero/profile section displays a visible photo. The hero banner image (fabric-hero-banner.dim_1400x600.png) from frontend/public/assets/generated must be rendered and clearly visible in the hero section of HomePage.tsx. Diagnose and fix any CSS, path, or rendering issue that causes the image to not appear.",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-clothing-category-section-on-the-homepage-and-or-products-page-this-section-should-display-a-heading-clothing-a-brief-description-e-g-premium-ready-made-garments-and-placeholder-cards-for-the-sub-categories-t-shirts-lowers-and-coats-since-no-clothing-products-exist-in-the-backend-yet-display-visually-styled-placeholder-coming-soon-cards-for-each-sub-category-the-section-should-match-the-site-s-existing-brand-theme-deep-charcoal-off-white-teal-accent",
+      "title": "Add a 'Clothing' category section on the homepage and/or products page. This section should display a heading 'Clothing', a brief description (e.g., 'Premium ready-made garments'), and placeholder cards for the sub-categories: T-Shirts, Lowers, and Coats. Since no clothing products exist in the backend yet, display visually styled placeholder/coming-soon cards for each sub-category. The section should match the site's existing brand theme (deep charcoal, off-white, teal accent).",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-fabrics-category-section-on-the-homepage-and-or-products-page-that-groups-and-displays-the-existing-fabric-products-this-section-should-have-a-clear-fabrics-heading-and-render-the-existing-fabric-product-cards-or-a-subset-as-featured-items-beneath-it-this-clearly-separates-fabric-products-from-the-new-clothing-section",
+      "title": "Add a 'Fabrics' category section on the homepage and/or products page that groups and displays the existing fabric products. This section should have a clear 'Fabrics' heading and render the existing fabric product cards (or a subset as featured items) beneath it. This clearly separates fabric products from the new Clothing section.",
+      "reqIds": [
+        "REQ-28"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-fabrics-category-section-on-the-homepage-homepage-tsx-and-the-products-page-productspage-tsx-to-display-a-clear-empty-state-when-no-fabric-products-exist-instead-of-showing-sample-auto-initialized-products-or-a-blank-space-render-a-styled-no-products-yet-check-back-soon-or-similar-placeholder-message-within-the-fabrics-section-remove-or-disable-any-auto-initialization-logic-that-pre-populates-sample-fabric-products-on-first-load-so-the-section-truly-reflects-zero-products",
+      "title": "Update the 'Fabrics' category section on the homepage (HomePage.tsx) and the Products page (ProductsPage.tsx) to display a clear empty state when no fabric products exist. Instead of showing sample/auto-initialized products or a blank space, render a styled 'No products yet — check back soon!' (or similar) placeholder message within the Fabrics section. Remove or disable any auto-initialization logic that pre-populates sample fabric products on first load, so the section truly reflects zero products.",
+      "reqIds": [
+        "REQ-29"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-clothing-category-section-on-the-homepage-homepage-tsx-to-display-a-clear-empty-state-for-each-sub-category-t-shirts-lowers-coats-indicating-that-no-products-are-available-yet-replace-any-coming-soon-placeholder-cards-with-a-unified-empty-state-message-or-minimal-placeholder-that-clearly-communicates-products-will-be-added-later-the-section-heading-clothing-and-its-brief-description-must-remain-visible",
+      "title": "Update the 'Clothing' category section on the homepage (HomePage.tsx) to display a clear empty state for each sub-category (T-Shirts, Lowers, Coats) indicating that no products are available yet. Replace any 'Coming Soon' placeholder cards with a unified empty-state message or minimal placeholder that clearly communicates products will be added later. The section heading 'Clothing' and its brief description must remain visible.",
+      "reqIds": [
+        "REQ-30"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-disable-or-remove-the-backend-auto-initialization-call-initializesampleproducts-or-equivalent-that-is-triggered-on-the-frontend-e-g-in-homepage-tsx-or-usequeries-ts-when-no-products-are-found-the-site-should-not-auto-populate-the-backend-with-sample-fabric-products-the-product-list-should-remain-empty-until-products-are-manually-added",
+      "title": "Disable or remove the backend auto-initialization call (initializeSampleProducts or equivalent) that is triggered on the frontend (e.g., in HomePage.tsx or useQueries.ts) when no products are found. The site should not auto-populate the backend with sample fabric products; the product list should remain empty until products are manually added.",
+      "reqIds": [
+        "REQ-31"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-the-t-shirts-lowers-and-coats-sub-category-columns-cards-from-the-clothing-section-on-the-homepage-homepage-tsx-the-clothing-section-heading-clothing-and-its-brief-description-must-remain-visible-but-all-three-sub-category-placeholder-entries-must-be-deleted-from-the-rendered-output",
+      "title": "Remove the T-Shirts, Lowers, and Coats sub-category columns/cards from the Clothing section on the homepage (HomePage.tsx). The Clothing section heading ('Clothing') and its brief description must remain visible, but all three sub-category placeholder entries must be deleted from the rendered output.",
+      "reqIds": [
+        "REQ-34"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-diagnose-and-fix-the-data-fetching-issue-in-admindashboardpage-tsx-that-causes-the-inquiries-table-to-display-a-refresh-the-page-message-instead-of-rendering-submitted-inquiries-investigate-the-usegetallinquiries-react-query-hook-in-usequeries-ts-and-the-corresponding-backend-getinquiries-function-in-backend-main-mo-ensure-the-query-correctly-calls-the-backend-actor-handles-the-response-including-motoko-result-variant-unwrapping-and-surfaces-real-inquiry-data-in-the-table-eliminate-any-condition-or-error-path-that-triggers-the-refresh-the-page-fallback-message-when-inquiries-are-present-or-the-fetch-is-in-progress",
+      "title": "Diagnose and fix the data fetching issue in AdminDashboardPage.tsx that causes the inquiries table to display a 'refresh the page' message instead of rendering submitted inquiries. Investigate the useGetAllInquiries React Query hook in useQueries.ts and the corresponding backend getInquiries function in backend/main.mo. Ensure the query correctly calls the backend actor, handles the response (including Motoko Result/variant unwrapping), and surfaces real inquiry data in the table. Eliminate any condition or error path that triggers the 'refresh the page' fallback message when inquiries are present or the fetch is in progress.",
+      "reqIds": [
+        "REQ-35"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -221,31 +304,63 @@
       "status": "pending"
     },
     {
-      "id": "AR-13",
-      "summary": "Restrict the admin dashboard/inquiry list so it is only accessible to admin users — not visible to the general public. Add authentication or access protection to the /admin route.",
+      "id": "AR-18",
+      "summary": "Replace Internet Identity login with a simple password-based admin login. The password should be 'luckygoyal0001'. Remove any Google/Internet Identity login. Only users with the correct password can access the inquiries/admin dashboard.",
       "reqIds": [],
       "status": "pending"
     },
     {
-      "id": "AR-14",
-      "summary": "Restrict admin dashboard access to only the specific authorized identity (lakshaypgoyal@gmail.com or phone 9978625857). Only this user should be able to view inquiries after logging in via Internet Identity.",
+      "id": "AR-21",
+      "summary": "Update the backend access control so that the getInquiries function is publicly callable without requiring a specific authorized principal. Since authentication is now handled client-side via password, the backend should allow any caller to fetch inquiries (or keep existing logic but not block based on Internet Identity principal).",
+      "reqIds": [
+        "REQ-25"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-22",
+      "summary": "Ensure the homepage hero/profile section displays a photo (keep existing photo visible on the front page)",
       "reqIds": [],
       "status": "pending"
     },
     {
-      "id": "AR-15",
-      "summary": "In the backend, store a hardcoded list of authorized Internet Identity principals that correspond to the owner's accounts (linked to lakshaypgoyal@gmail.com and phone 9978625857). Expose a query function `isAuthorized(caller: Principal): Bool` that returns true only if the calling principal is in the authorized list. The `getInquiries` function must check authorization and trap (or return an error) if the caller is not authorized.",
+      "id": "AR-23",
+      "summary": "Add two product category sections on the homepage/products page: one for 'Clothing' (t-shirts, lowers, coats to be added later) and one for 'Fabrics'",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-24",
+      "summary": "Remove all pre-added/sample fabric products from the backend/frontend. The fabrics section should be completely empty until the owner manually specifies which products to add.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-25",
+      "summary": "Delete all existing fabric product records stored in the backend. The backend's product list must be completely empty after this operation. No fabric products should be returned by any query (e.g., getProducts) until the owner manually adds them.",
       "reqIds": [
-        "REQ-21"
+        "REQ-32"
       ],
       "status": "pending"
     },
     {
-      "id": "AR-17",
-      "summary": "Add a one-time setup mechanism or clear inline documentation in the backend so the site owner can register their Internet Identity principal as the authorized admin. Provide an `initAdmin` or `setAuthorizedPrincipal` function callable only once (or only by the canister controller) to store the owner's principal after their first Internet Identity login. Alternatively, if the principal is already known, hardcode it directly.",
+      "id": "AR-26",
+      "summary": "Ensure the Fabrics section on the homepage (HomePage.tsx) and the Products page (ProductsPage.tsx) correctly reflects the now-empty backend by showing the empty-state UI ('No products yet — check back soon!' or equivalent) immediately, with no lingering cached or hardcoded product data displayed.",
       "reqIds": [
-        "REQ-23"
+        "REQ-33"
       ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-27",
+      "summary": "Remove the T-Shirts, Lowers, and Coats sub-category columns/cards from the Clothing section on the homepage and products page. The Clothing section heading and description may remain, but the sub-category placeholders should be removed.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-28",
+      "summary": "Fix admin dashboard: inquiries are not displaying and instead showing a 'refresh the page' message. Investigate and resolve the data fetching/loading issue so submitted inquiries appear correctly.",
+      "reqIds": [],
       "status": "pending"
     }
   ],

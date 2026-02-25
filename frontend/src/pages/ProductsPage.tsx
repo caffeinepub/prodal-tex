@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Loader2, SlidersHorizontal, X } from 'lucide-react';
+import { Loader2, SlidersHorizontal, X, Package } from 'lucide-react';
 import { useGetAllProducts } from '../hooks/useQueries';
 import ProductCard from '../components/ProductCard';
 import { Button } from '@/components/ui/button';
@@ -94,16 +94,22 @@ export default function ProductsPage() {
             <p className="font-body text-destructive">Failed to load products. Please try again.</p>
           </div>
         ) : filteredProducts.length === 0 ? (
-          <div className="text-center py-24">
-            <p className="font-body text-muted-foreground text-lg">
+          <div className="flex flex-col items-center justify-center py-24 gap-4">
+            <div className="w-20 h-20 rounded-full bg-teal/10 border border-teal/20 flex items-center justify-center">
+              <Package size={36} className="text-teal/50" />
+            </div>
+            <p className="font-body text-lg font-medium text-foreground/70">
+              {colorFilter !== 'all' ? `No products found for "${colorFilter}"` : 'No products yet'}
+            </p>
+            <p className="font-body text-sm text-muted-foreground text-center max-w-sm">
               {colorFilter !== 'all'
-                ? `No products found for color "${colorFilter}".`
-                : 'No products available yet.'}
+                ? 'Try a different color filter or browse the full collection.'
+                : 'No fabric products have been added yet — check back soon!'}
             </p>
             {colorFilter !== 'all' && (
               <Button
                 variant="outline"
-                className="mt-4 border-teal text-teal hover:bg-teal hover:text-offwhite font-body"
+                className="mt-2 border-teal text-teal hover:bg-teal hover:text-offwhite font-body"
                 onClick={() => setColorFilter('all')}
               >
                 Show All Products

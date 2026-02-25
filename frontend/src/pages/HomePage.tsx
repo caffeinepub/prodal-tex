@@ -1,9 +1,9 @@
 import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { ArrowRight, CheckCircle2, Package, Truck, Award, Loader2 } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
-import { useGetAllProducts, useInitializeSampleProducts } from '../hooks/useQueries';
-import { useEffect } from 'react';
+import { useGetAllProducts } from '../hooks/useQueries';
 
 const sellingPoints = [
   {
@@ -30,14 +30,6 @@ const sellingPoints = [
 
 export default function HomePage() {
   const { data: products, isLoading } = useGetAllProducts();
-  const initMutation = useInitializeSampleProducts();
-
-  // Auto-initialize sample products if none exist
-  useEffect(() => {
-    if (!isLoading && products && products.length === 0 && !initMutation.isPending && !initMutation.isSuccess) {
-      initMutation.mutate();
-    }
-  }, [isLoading, products]);
 
   const featuredProducts = products?.slice(0, 3) ?? [];
 
@@ -50,9 +42,12 @@ export default function HomePage() {
           <img
             src="/assets/generated/fabric-hero-banner.dim_1400x600.png"
             alt="Premium Polyester Knitted Dyed Fabric"
-            className="w-full h-full object-cover opacity-40"
+            className="w-full h-full object-cover opacity-70"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-charcoal-dark via-charcoal-dark/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-charcoal-dark/90 via-charcoal-dark/60 to-charcoal-dark/30" />
         </div>
 
         {/* Hero Content */}
@@ -67,7 +62,7 @@ export default function HomePage() {
                 Polyester Knitted Dyed Fabric
               </span>
             </h1>
-            <p className="font-body text-base md:text-lg text-offwhite/70 leading-relaxed mb-8 max-w-xl">
+            <p className="font-body text-base md:text-lg text-offwhite/80 leading-relaxed mb-8 max-w-xl">
               Supplying premium quality Polyester Knitted Dyed Fabrics to manufacturers, designers, and retailers worldwide. Exceptional color consistency, superior texture, and reliable bulk supply.
             </p>
             <div className="flex flex-wrap gap-4">
@@ -153,28 +148,56 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Featured Products ─────────────────────────────────────────────── */}
+      {/* ── Clothing Section ──────────────────────────────────────────────── */}
+      <section className="py-16 md:py-24 bg-charcoal-dark">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <span className="text-teal-light font-body text-sm font-medium tracking-widest uppercase">Ready-Made Garments</span>
+              <h2 className="font-heading text-3xl md:text-4xl font-semibold text-offwhite mt-2">
+                Clothing
+              </h2>
+              <p className="font-body text-base text-offwhite/60 mt-2">
+                Premium ready-made garments crafted from our finest fabrics
+              </p>
+            </div>
+            <Badge
+              variant="outline"
+              className="self-start sm:self-auto border-teal-light/40 text-teal-light font-body text-xs tracking-widest uppercase px-3 py-1.5"
+            >
+              Coming Soon
+            </Badge>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Fabrics Section ───────────────────────────────────────────────── */}
       <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
             <div>
               <span className="text-teal font-body text-sm font-medium tracking-widest uppercase">Our Collection</span>
               <h2 className="font-heading text-3xl md:text-4xl font-semibold text-foreground mt-2">
-                Featured Fabrics
+                Fabrics
               </h2>
+              <p className="font-body text-base text-muted-foreground mt-2">
+                Premium textile materials for every manufacturing need
+              </p>
             </div>
             <Link to="/products">
               <Button
                 variant="outline"
                 className="border-teal text-teal hover:bg-teal hover:text-offwhite font-body font-medium gap-2 transition-colors"
               >
-                View All Products
+                View All Fabrics
                 <ArrowRight size={15} />
               </Button>
             </Link>
           </div>
 
-          {isLoading || initMutation.isPending ? (
+          {isLoading ? (
             <div className="flex items-center justify-center py-20">
               <Loader2 size={32} className="animate-spin text-teal" />
             </div>
@@ -185,8 +208,16 @@ export default function HomePage() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-16 text-muted-foreground font-body">
-              No products available yet.
+            <div className="flex flex-col items-center justify-center py-16 gap-4">
+              <div className="w-16 h-16 rounded-full bg-teal/10 border border-teal/20 flex items-center justify-center">
+                <Package size={28} className="text-teal/60" />
+              </div>
+              <p className="font-body text-base font-medium text-foreground/70">
+                No products yet
+              </p>
+              <p className="font-body text-sm text-muted-foreground text-center max-w-xs">
+                Check back soon — our fabric collection will be listed here shortly.
+              </p>
             </div>
           )}
         </div>

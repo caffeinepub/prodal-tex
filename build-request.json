@@ -1,75 +1,40 @@
 {
   "kind": "build_request",
-  "title": "Restrict admin dashboard access to specific authorized identity",
+  "title": "Fix admin dashboard inquiries not loading (showing 'refresh the page' message)",
   "projectName": "PRODAL TEX",
   "priority": "high",
   "requirements": [
     {
-      "id": "REQ-21",
-      "text": "In the backend, store a hardcoded list of authorized Internet Identity principals that correspond to the owner's accounts (linked to lakshaypgoyal@gmail.com and phone 9978625857). Expose a query function `isAuthorized(caller: Principal): Bool` that returns true only if the calling principal is in the authorized list. The `getInquiries` function must check authorization and trap (or return an error) if the caller is not authorized.",
-      "target": "backend",
+      "id": "REQ-35",
+      "text": "Diagnose and fix the data fetching issue in AdminDashboardPage.tsx that causes the inquiries table to display a 'refresh the page' message instead of rendering submitted inquiries. Investigate the useGetAllInquiries React Query hook in useQueries.ts and the corresponding backend getInquiries function in backend/main.mo. Ensure the query correctly calls the backend actor, handles the response (including Motoko Result/variant unwrapping), and surfaces real inquiry data in the table. Eliminate any condition or error path that triggers the 'refresh the page' fallback message when inquiries are present or the fetch is in progress.",
+      "target": "both",
       "source": {
         "messageIds": [
-          "msg-user-last"
+          "msg-user-1"
         ],
         "quotes": [
-          "The inquiries should only when log in with lakshaypgoyal@gmail.com or my number 9978625857"
+          "The inquiries are not showing its is showing refresh the page"
         ]
       },
       "acceptanceCriteria": [
-        "The backend `getInquiries` function rejects calls from non-authorized principals.",
-        "Only the principal(s) linked to lakshaypgoyal@gmail.com or phone 9978625857 via Internet Identity can successfully retrieve inquiries.",
-        "Unauthorized callers receive a clear error/trap response."
-      ]
-    },
-    {
-      "id": "REQ-22",
-      "text": "On the Admin Dashboard page (`AdminDashboardPage.tsx`), after the user authenticates via Internet Identity, call the backend `isAuthorized` check (or handle the error response from `getInquiries`). If the authenticated user's principal is not authorized, display an 'Access Denied' message explaining that this dashboard is restricted to the site owner, and do not render the inquiry table. Only the specific authorized principal(s) associated with lakshaypgoyal@gmail.com or phone number 9978625857 should see the inquiry data.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-user-last"
-        ],
-        "quotes": [
-          "The inquiries should only when log in with lakshaypgoyal@gmail.com or my number 9978625857"
-        ]
-      },
-      "acceptanceCriteria": [
-        "An authenticated user who is NOT the authorized owner sees an 'Access Denied' message instead of the inquiry table.",
-        "The authorized owner (principal linked to lakshaypgoyal@gmail.com or 9978625857) can log in and view the full inquiry table.",
-        "Unauthenticated users still see the login prompt (existing behavior preserved).",
-        "No inquiry data is leaked to unauthorized authenticated users."
-      ]
-    },
-    {
-      "id": "REQ-23",
-      "text": "Add a one-time setup mechanism or clear inline documentation in the backend so the site owner can register their Internet Identity principal as the authorized admin. Provide an `initAdmin` or `setAuthorizedPrincipal` function callable only once (or only by the canister controller) to store the owner's principal after their first Internet Identity login. Alternatively, if the principal is already known, hardcode it directly.",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-user-last"
-        ],
-        "quotes": [
-          "The inquiries should only when log in with lakshaypgoyal@gmail.com or my number 9978625857"
-        ]
-      },
-      "acceptanceCriteria": [
-        "There is a clear, functional mechanism for the authorized principal to be set or verified in the backend.",
-        "Only the designated owner principal can access inquiries after the mechanism is in place.",
-        "The mechanism prevents arbitrary users from granting themselves admin access."
+        "After entering the correct admin password ('luckygoyal0001'), submitted inquiries are displayed in the table without any 'refresh the page' message.",
+        "The React Query hook in useQueries.ts correctly invokes the backend actor's getInquiries function and returns the inquiry array.",
+        "The backend getInquiries function in main.mo returns all stored inquiries without errors or access-control rejections for any caller.",
+        "A loading skeleton is shown while the query is in flight.",
+        "An empty-state message is shown only when zero inquiries have been submitted (not as a result of a fetch error).",
+        "Any error state shows a descriptive error message rather than the generic 'refresh the page' fallback."
       ]
     }
   ],
   "constraints": [
-    "Do not edit any files under frontend/src/hooks/ (immutable paths).",
-    "All Motoko logic must remain in backend/main.mo (single-actor architecture).",
-    "Internet Identity is the only supported authentication mechanism — do not integrate external OAuth or Gmail APIs."
+    "Do not change the admin password; it must remain 'luckygoyal0001'.",
+    "Do not re-introduce Internet Identity or any third-party authentication.",
+    "Do not modify files listed in frontend.immutablePaths."
   ],
   "nonGoals": [
-    "Changing the visual design or brand theme.",
-    "Adding multi-admin or role-based access control beyond a single owner.",
-    "Sending email or SMS notifications to the owner.",
-    "Integrating directly with Gmail or phone number verification services."
+    "Adding new inquiry fields or changing the inquiry data model.",
+    "Changing the visual design or layout of the Admin Dashboard beyond fixing the data display bug.",
+    "Adding pagination or sorting to the inquiries table."
   ],
   "imageRequirements": {
     "required": [],

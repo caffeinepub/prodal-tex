@@ -1,30 +1,24 @@
 import { useState } from 'react';
 import { Link, useRouterState } from '@tanstack/react-router';
-import { Menu, X, LogInIcon, LogOutIcon } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useInternetIdentity } from '@/hooks/useInternetIdentity';
 
-const publicNavLinks = [
+const navLinks = [
   { label: 'Home', path: '/' },
   { label: 'Products', path: '/products' },
   { label: 'Contact', path: '/contact' },
+  { label: 'Admin', path: '/admin' },
 ];
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const routerState = useRouterState();
   const currentPath = routerState.location.pathname;
-  const { identity, login, clear, isLoggingIn } = useInternetIdentity();
-  const isAuthenticated = !!identity;
 
   const isActive = (path: string) => {
     if (path === '/') return currentPath === '/';
     return currentPath.startsWith(path);
   };
-
-  const allNavLinks = isAuthenticated
-    ? [...publicNavLinks, { label: 'Admin', path: '/admin' }]
-    : publicNavLinks;
 
   return (
     <header className="sticky top-0 z-50 bg-charcoal-dark border-b border-white/10 shadow-md">
@@ -53,7 +47,7 @@ export default function Header() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-1">
-            {allNavLinks.map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
@@ -66,30 +60,6 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-
-            {/* Login / Logout */}
-            {isAuthenticated ? (
-              <button
-                onClick={clear}
-                className="ml-2 px-4 py-2 text-sm font-body font-medium tracking-wide transition-colors rounded-sm text-offwhite/70 hover:text-offwhite hover:bg-white/5 flex items-center gap-1.5"
-              >
-                <LogOutIcon size={14} />
-                Logout
-              </button>
-            ) : (
-              <button
-                onClick={login}
-                disabled={isLoggingIn}
-                className="ml-2 px-4 py-2 text-sm font-body font-medium tracking-wide transition-colors rounded-sm text-teal-light hover:text-offwhite hover:bg-teal/10 flex items-center gap-1.5 disabled:opacity-60"
-              >
-                {isLoggingIn ? (
-                  <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-teal-light border-t-transparent" />
-                ) : (
-                  <LogInIcon size={14} />
-                )}
-                Login
-              </button>
-            )}
 
             <Link to="/contact">
               <Button
@@ -116,7 +86,7 @@ export default function Header() {
       {mobileOpen && (
         <div className="md:hidden bg-charcoal-dark border-t border-white/10 animate-fade-in">
           <nav className="container mx-auto px-4 py-4 flex flex-col gap-1">
-            {allNavLinks.map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
@@ -131,44 +101,16 @@ export default function Header() {
               </Link>
             ))}
 
-            {/* Login / Logout in mobile */}
-            {isAuthenticated ? (
-              <button
-                onClick={() => {
-                  clear();
-                  setMobileOpen(false);
-                }}
-                className="px-4 py-3 text-sm font-body font-medium tracking-wide rounded-sm transition-colors text-offwhite/70 hover:text-offwhite hover:bg-white/5 flex items-center gap-2 text-left"
-              >
-                <LogOutIcon size={15} />
-                Logout
-              </button>
-            ) : (
-              <button
-                onClick={() => {
-                  login();
-                  setMobileOpen(false);
-                }}
-                disabled={isLoggingIn}
-                className="px-4 py-3 text-sm font-body font-medium tracking-wide rounded-sm transition-colors text-teal-light hover:text-offwhite hover:bg-teal/10 flex items-center gap-2 text-left disabled:opacity-60"
-              >
-                {isLoggingIn ? (
-                  <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-teal-light border-t-transparent" />
-                ) : (
-                  <LogInIcon size={15} />
-                )}
-                Login
-              </button>
-            )}
-
-            <Link to="/contact" onClick={() => setMobileOpen(false)}>
-              <Button
-                size="sm"
-                className="mt-2 w-full bg-teal hover:bg-teal-light text-offwhite font-body font-medium tracking-wide border-0"
-              >
-                Get a Quote
-              </Button>
-            </Link>
+            <div className="mt-3 pt-3 border-t border-white/10">
+              <Link to="/contact" onClick={() => setMobileOpen(false)}>
+                <Button
+                  size="sm"
+                  className="w-full bg-teal hover:bg-teal-light text-offwhite font-body font-medium tracking-wide border-0"
+                >
+                  Get a Quote
+                </Button>
+              </Link>
+            </div>
           </nav>
         </div>
       )}

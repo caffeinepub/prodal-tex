@@ -30,23 +30,6 @@ export function useGetProduct(id: bigint | null) {
   });
 }
 
-// ─── Initialize Sample Products ──────────────────────────────────────────────
-
-export function useInitializeSampleProducts() {
-  const { actor } = useActor();
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async () => {
-      if (!actor) throw new Error('Actor not available');
-      return actor.initializeSampleProducts();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['products'] });
-    },
-  });
-}
-
 // ─── Inquiries ────────────────────────────────────────────────────────────────
 
 export interface InquiryFormData {
@@ -82,28 +65,16 @@ export function useSubmitInquiry() {
   });
 }
 
-export function useGetAllInquiries() {
+export function useGetAllInquiries(enabled: boolean = false) {
   const { actor, isFetching } = useActor();
 
   return useQuery<CustomerInquiry[]>({
     queryKey: ['inquiries'],
     queryFn: async () => {
-      if (!actor) return [];
+      if (!actor) throw new Error('Actor not available');
       return actor.getAllInquiries();
     },
-    enabled: !!actor && !isFetching,
-  });
-}
-
-export function useAllInquiries() {
-  const { actor, isFetching } = useActor();
-
-  return useQuery<CustomerInquiry[]>({
-    queryKey: ['all-submitted-inquiries'],
-    queryFn: async () => {
-      if (!actor) return [];
-      return actor.getAllInquiries();
-    },
-    enabled: !!actor && !isFetching,
+    enabled: !!actor && !isFetching && enabled,
+    retry: false,
   });
 }
