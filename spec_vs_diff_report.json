@@ -1,0 +1,61 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-25T12:40:45.021Z",
+  "summary": "The diff implements authorization for the admin dashboard but uses a secret-token-based access control mechanism (caffeineAdminToken via URL/session parameters) rather than Internet Identity principal-based authorization as required. The backend uses an AccessControl mixin with permission checks, and the frontend detects authorization errors from backend traps. However, the specific requirements for a hardcoded authorized principal list, an isAuthorized(caller: Principal): Bool query function, and a one-time initAdmin/setAuthorizedPrincipal setup mechanism are not clearly implemented as specified.",
+  "missing_requirements": [
+    {
+      "id": "REQ-21",
+      "requirement": "Store a hardcoded list of authorized Internet Identity principals and expose a query function isAuthorized(caller: Principal): Bool that returns true only if the calling principal is in the authorized list.",
+      "reason": "The backend uses a generic AccessControl.hasPermission mixin rather than a hardcoded principal list. No isAuthorized query function is visible in the diff. The authorization mechanism appears to be token-based (caffeineAdminToken) rather than Internet Identity principal-based.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useActor.ts"
+      ]
+    },
+    {
+      "id": "REQ-23",
+      "requirement": "Provide an initAdmin or setAuthorizedPrincipal function callable only once (or only by the canister controller), or hardcode the known principal directly.",
+      "reason": "The backend uses AccessControl and MixinAuthorization modules but the diff does not show an initAdmin or setAuthorizedPrincipal function, nor is there evidence of a hardcoded principal. The access control is initialized via _initializeAccessControlWithSecret using a URL token, which is not principal-based and does not match the one-time setup or hardcoded principal requirement.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useActor.ts"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Secret token-based access control using a caffeineAdminToken URL/session parameter to initialize admin permissions via _initializeAccessControlWithSecret.",
+      "reason": "The build request explicitly requires Internet Identity principal-based authorization only. A URL secret token system was not requested and contradicts the constraint that Internet Identity is the only supported authentication mechanism.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts",
+        "frontend/src/utils/urlParams.ts"
+      ]
+    },
+    {
+      "description": "A urlParams.ts utility module with functions for persisting URL parameters via sessionStorage, including getSecretParameter, storeSessionParameter, getPersistedUrlParameter, and clearParamFromHash.",
+      "reason": "This utility was built to support the unrequested token-based admin access mechanism. It was not part of the build request.",
+      "evidence": [
+        "frontend/src/utils/urlParams.ts"
+      ]
+    },
+    {
+      "description": "A backend/migration.mo module defining old/new actor state types and a run migration function.",
+      "reason": "No migration module or state migration was requested in the build request.",
+      "evidence": [
+        "backend/migration.mo"
+      ]
+    }
+  ],
+  "confidence": 0.72,
+  "changed_files": [
+    "backend/main.mo",
+    "backend/migration.mo",
+    "frontend-file-summaries.txt",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/AdminDashboardPage.tsx",
+    "frontend/src/utils/urlParams.ts",
+    "project_state.json"
+  ]
+}

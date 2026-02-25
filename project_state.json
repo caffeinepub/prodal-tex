@@ -1,0 +1,256 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 15,
+  "summary": "E-commerce website for 'Prodal Tex' selling premium Polyester Knitted dyed fabric.",
+  "architectural_notes": [
+    "Niche: premium Polyester Knitted dyed fabric sales",
+    "Brand name displayed as 'PRODAL TEX' (all caps)",
+    "Admin dashboard (/admin) must be protected and only accessible to authorized admin users",
+    "Admin access is restricted to a specific principal tied to lakshaypgoyal@gmail.com or phone 9978625857 — not all authenticated Internet Identity users"
+  ],
+  "known_issues": [
+    "'Request a Quote' button/section not visible due to white-on-white color contrast issue",
+    "Inquiry/enquiry data on the admin dashboard is currently visible to all users — needs access restriction"
+  ],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-create-a-visually-striking-homepage-for-prodal-tex-that-includes-a-hero-section-with-brand-headline-a-brief-brand-introduction-emphasizing-premium-quality-polyester-knitted-dyed-fabric-a-featured-products-collections-section-key-selling-points-e-g-quality-variety-of-colors-bulk-availability-and-a-call-to-action-directing-visitors-to-browse-products-or-contact-for-orders",
+      "title": "Create a visually striking homepage for 'Prodal Tex' that includes a hero section with brand headline, a brief brand introduction emphasizing premium quality Polyester Knitted dyed fabric, a featured products/collections section, key selling points (e.g., quality, variety of colors, bulk availability), and a call-to-action directing visitors to browse products or contact for orders.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-product-listing-page-displaying-all-available-fabric-products-in-a-responsive-grid-each-product-card-should-show-the-fabric-image-name-color-shade-gsm-price-indication-and-a-view-details-button-include-a-color-shade-filter-to-narrow-down-results",
+      "title": "Build a product listing page displaying all available fabric products in a responsive grid. Each product card should show the fabric image, name, color/shade, GSM, price indication, and a 'View Details' button. Include a color/shade filter to narrow down results.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-product-detail-page-that-shows-the-full-information-for-a-selected-fabric-product-large-image-full-description-fabric-type-all-color-shade-options-gsm-width-minimum-order-quantity-price-and-an-inquire-now-button-that-links-to-the-contact-inquiry-form",
+      "title": "Build a product detail page that shows the full information for a selected fabric product: large image, full description, fabric type, all color/shade options, GSM, width, minimum order quantity, price, and an 'Inquire Now' button that links to the contact/inquiry form.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-contact-inquiry-page-with-a-form-for-wholesale-and-retail-customers-to-request-pricing-or-place-inquiries-fields-customer-name-email-phone-company-name-optional-product-of-interest-dropdown-populated-from-product-list-quantity-required-and-a-message-notes-field-on-submission-save-the-inquiry-to-the-backend-and-display-a-success-confirmation-message",
+      "title": "Create a Contact/Inquiry page with a form for wholesale and retail customers to request pricing or place inquiries. Fields: customer name, email, phone, company name (optional), product of interest (dropdown populated from product list), quantity required, and a message/notes field. On submission, save the inquiry to the backend and display a success confirmation message.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-site-wide-navigation-header-showing-the-prodal-tex-logo-brand-name-and-links-to-home-products-and-contact-add-a-footer-with-brand-name-tagline-and-contact-information-placeholder-navigation-must-be-responsive-with-a-mobile-hamburger-menu",
+      "title": "Implement a site-wide navigation header showing the 'Prodal Tex' logo/brand name and links to: Home, Products, and Contact. Add a footer with brand name, tagline, and contact information placeholder. Navigation must be responsive with a mobile hamburger menu.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-a-sophisticated-textile-industry-inspired-visual-theme-across-the-entire-site-deep-charcoal-and-warm-off-white-as-primary-tones-with-a-rich-teal-or-deep-forest-green-accent-color-use-elegant-serif-or-refined-sans-serif-typography-for-headings-generous-whitespace-and-subtle-fabric-texture-inspired-visual-motifs-the-design-should-evoke-premium-quality-and-professionalism-consistent-with-a-high-end-fabric-brand",
+      "title": "Apply a sophisticated, textile-industry-inspired visual theme across the entire site: deep charcoal and warm off-white as primary tones, with a rich teal or deep forest-green accent color. Use elegant serif or refined sans-serif typography for headings, generous whitespace, and subtle fabric-texture-inspired visual motifs. The design should evoke premium quality and professionalism consistent with a high-end fabric brand.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-render-the-generated-fabric-texture-hero-banner-image-fabric-hero-banner-dim-1400x600-png-on-the-homepage-hero-section-and-the-product-card-placeholder-images-fabric-swatch-placeholder-dim-600x600-png-for-products-without-assigned-images-sourced-from-frontend-public-assets-generated",
+      "title": "Render the generated fabric texture hero banner image (fabric-hero-banner.dim_1400x600.png) on the homepage hero section and the product card placeholder images (fabric-swatch-placeholder.dim_600x600.png) for products without assigned images, sourced from frontend/public/assets/generated.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-every-user-facing-display-of-the-brand-name-across-the-entire-site-to-render-as-prodal-tex-all-caps-this-includes-the-header-logo-brand-name-footer-brand-name-page-titles-hero-section-headings-meta-title-in-index-html-and-any-other-location-where-prodal-tex-appears-as-displayed-text",
+      "title": "Update every user-facing display of the brand name across the entire site to render as 'PRODAL TEX' (all caps). This includes the Header logo/brand name, Footer brand name, page titles, hero section headings, meta title in index.html, and any other location where 'Prodal Tex' appears as displayed text.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-all-contact-information-displayed-across-the-site-to-use-the-real-business-details-phone-number-9978625857-email-lakshaypgoyal-gmail-com-and-address-shop-no-ug-18-a-to-27-a-sangini-trade-center-sarolikumbhariya-road-kubharia-gaon-sayam-sangini-surat-395010-this-must-be-reflected-in-the-footer-component-the-contact-page-and-any-other-location-where-placeholder-contact-information-currently-appears",
+      "title": "Update all contact information displayed across the site to use the real business details: phone number 9978625857, email Lakshaypgoyal@gmail.com, and address 'Shop No. UG 18/A to 27/A, Sangini Trade Center, Sarolikumbhariya Road, Kubharia Gaon, Sayam Sangini, Surat-395010'. This must be reflected in the Footer component, the Contact page, and any other location where placeholder contact information currently appears.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-request-a-quote-get-a-quote-button-and-any-associated-section-or-cta-element-that-is-currently-invisible-due-to-white-text-or-white-background-rendering-on-a-white-surface-ensure-the-button-has-sufficient-color-contrast-by-applying-the-brand-s-teal-forest-green-accent-color-as-the-background-with-white-or-off-white-text-or-vice-versa-so-it-is-clearly-visible-against-its-surrounding-background-across-all-pages-and-contexts-where-it-appears-header-hero-section-any-cta-banners",
+      "title": "Fix the 'Request a Quote' / 'Get a Quote' button and any associated section or CTA element that is currently invisible due to white text or white background rendering on a white surface. Ensure the button has sufficient color contrast by applying the brand's teal/forest-green accent color as the background with white or off-white text, or vice versa, so it is clearly visible against its surrounding background across all pages and contexts where it appears (Header, Hero section, any CTA banners).",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-react-query-hook-in-usequeries-ts-to-fetch-all-inquiries-from-the-backend-using-the-new-query-function-added-in-req-13",
+      "title": "Add a React Query hook in useQueries.ts to fetch all inquiries from the backend using the new query function added in REQ-13.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-an-admin-dashboard-page-at-the-route-admin-that-displays-all-submitted-customer-inquiries-in-a-styled-table-columns-must-include-customer-name-email-phone-number-company-name-product-of-interest-quantity-required-message-and-submission-date-time-the-page-should-match-the-site-s-existing-brand-theme-deep-charcoal-off-white-teal-accent-include-a-loading-state-and-an-empty-state-message-if-no-inquiries-have-been-submitted-yet",
+      "title": "Create an Admin Dashboard page at the route '/admin' that displays all submitted customer inquiries in a styled table. Columns must include: customer name, email, phone number, company name, product of interest, quantity required, message, and submission date/time. The page should match the site's existing brand theme (deep charcoal, off-white, teal accent). Include a loading state and an empty state message if no inquiries have been submitted yet.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-admin-link-in-the-site-header-s-navigation-desktop-and-mobile-pointing-to-admin-so-the-site-owner-can-easily-access-the-dashboard-from-any-page",
+      "title": "Add an 'Admin' link in the site header's navigation (desktop and mobile) pointing to '/admin', so the site owner can easily access the dashboard from any page.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-register-the-admin-route-in-app-tsx-so-the-admin-dashboard-page-is-accessible-via-client-side-routing",
+      "title": "Register the '/admin' route in App.tsx so the Admin Dashboard page is accessible via client-side routing.",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-internet-identity-authentication-based-access-control-to-the-admin-route-if-the-user-is-not-logged-in-not-authenticated-via-internet-identity-redirect-them-away-from-admin-to-the-homepage-or-show-an-access-denied-login-prompt-screen-the-admin-dashboard-page-content-inquiry-table-must-only-be-rendered-for-authenticated-users",
+      "title": "Add Internet Identity authentication-based access control to the '/admin' route. If the user is not logged in (not authenticated via Internet Identity), redirect them away from '/admin' to the homepage or show an 'Access Denied' / login prompt screen. The Admin Dashboard page content (inquiry table) must only be rendered for authenticated users.",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-or-hide-the-admin-navigation-link-in-the-site-header-desktop-and-mobile-for-unauthenticated-users-the-admin-link-should-only-be-visible-in-the-header-when-the-user-is-authenticated-via-internet-identity",
+      "title": "Remove or hide the 'Admin' navigation link in the site header (desktop and mobile) for unauthenticated users. The Admin link should only be visible in the header when the user is authenticated via Internet Identity.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-login-logout-button-in-the-site-header-that-allows-the-admin-to-sign-in-and-out-via-internet-identity-when-unauthenticated-show-a-login-button-when-authenticated-show-a-logout-button-and-optionally-the-principal-identity-indicator-use-the-existing-useinternetidentity-hook-for-auth-state-and-actions",
+      "title": "Add a login/logout button in the site header that allows the admin to sign in and out via Internet Identity. When unauthenticated, show a 'Login' button. When authenticated, show a 'Logout' button (and optionally the principal/identity indicator). Use the existing useInternetIdentity hook for auth state and actions.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-on-the-admin-dashboard-page-admindashboardpage-tsx-after-the-user-authenticates-via-internet-identity-call-the-backend-isauthorized-check-or-handle-the-error-response-from-getinquiries-if-the-authenticated-user-s-principal-is-not-authorized-display-an-access-denied-message-explaining-that-this-dashboard-is-restricted-to-the-site-owner-and-do-not-render-the-inquiry-table-only-the-specific-authorized-principal-s-associated-with-lakshaypgoyal-gmail-com-or-phone-number-9978625857-should-see-the-inquiry-data",
+      "title": "On the Admin Dashboard page (`AdminDashboardPage.tsx`), after the user authenticates via Internet Identity, call the backend `isAuthorized` check (or handle the error response from `getInquiries`). If the authenticated user's principal is not authorized, display an 'Access Denied' message explaining that this dashboard is restricted to the site owner, and do not render the inquiry table. Only the specific authorized principal(s) associated with lakshaypgoyal@gmail.com or phone number 9978625857 should see the inquiry data.",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Homepage showcasing premium Polyester Knitted dyed fabric brand and products",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Product listing and detail pages for fabric collections",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Contact/inquiry form for wholesale or retail customers",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Implement a backend data model and API for fabric products, each with fields: name, description, fabric type (default: 'Polyester Knitted Dyed'), color/shade options, weight (GSM), available width, minimum order quantity, price per meter/kg, and an image filename. Pre-populate with at least 6 sample fabric products across different colors and styles.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Implement a backend model and API to store customer inquiries submitted via the contact form. Each inquiry should capture: customer name, email, phone number, company name (optional), product of interest, quantity required, and message.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Update brand/site name display to 'PRODAL TEX' (all caps) throughout the site",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Update site contact details: phone 9978625857, email Lakshaypgoyal@gmail.com, address Shop No. UG 18/A to 27/A, Sangini Trade Center, Sarolikumbhariya Road, Kubharia Gaon, Sayam Sangini, Surat-395010",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "Build an admin dashboard to view and manage all submitted quote/inquiry requests, showing customer name, email, phone, product interest, quantity, and message",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Add a backend query function to retrieve all submitted CustomerInquiry records, returning the full list of inquiries including customer name, email, phone number, company name, product of interest, quantity required, message, and submission timestamp.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Restrict the admin dashboard/inquiry list so it is only accessible to admin users — not visible to the general public. Add authentication or access protection to the /admin route.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-14",
+      "summary": "Restrict admin dashboard access to only the specific authorized identity (lakshaypgoyal@gmail.com or phone 9978625857). Only this user should be able to view inquiries after logging in via Internet Identity.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-15",
+      "summary": "In the backend, store a hardcoded list of authorized Internet Identity principals that correspond to the owner's accounts (linked to lakshaypgoyal@gmail.com and phone 9978625857). Expose a query function `isAuthorized(caller: Principal): Bool` that returns true only if the calling principal is in the authorized list. The `getInquiries` function must check authorization and trap (or return an error) if the caller is not authorized.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-17",
+      "summary": "Add a one-time setup mechanism or clear inline documentation in the backend so the site owner can register their Internet Identity principal as the authorized admin. Provide an `initAdmin` or `setAuthorizedPrincipal` function callable only once (or only by the canister controller) to store the owner's principal after their first Internet Identity login. Alternatively, if the principal is already known, hardcode it directly.",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Prodal Tex",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

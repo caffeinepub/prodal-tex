@@ -1,0 +1,65 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-25T12:40:45.024Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 3,
+    "implemented": 1,
+    "items": [
+      {
+        "id": "REQ-21",
+        "summary": "In the backend, store a hardcoded list of authorized Internet Identity principals that correspond to the owner's accounts (linked to lakshaypgoyal@gmail.com and phone 9978625857). Expose a query function `isAuthorized(caller: Principal): Bool` that returns true only if the calling principal is in the authorized list. The `getInquiries` function must check authorization and trap (or return an error) if the caller is not authorized.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-22",
+        "summary": "On the Admin Dashboard page (`AdminDashboardPage.tsx`), after the user authenticates via Internet Identity, call the backend `isAuthorized` check (or handle the error response from `getInquiries`). If the authenticated user's principal is not authorized, display an 'Access Denied' message explaining that this dashboard is restricted to the site owner, and do not render the inquiry table. Only the specific authorized principal(s) associated with lakshaypgoyal@gmail.com or phone number 9978625857 should see the inquiry data.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/AdminDashboardPage.tsx",
+          "frontend/src/hooks/useQueries.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/AdminDashboardPage.tsx",
+          "frontend/src/hooks/useQueries.ts"
+        ]
+      },
+      {
+        "id": "REQ-23",
+        "summary": "Add a one-time setup mechanism or clear inline documentation in the backend so the site owner can register their Internet Identity principal as the authorized admin. Provide an `initAdmin` or `setAuthorizedPrincipal` function callable only once (or only by the canister controller) to store the owner's principal after their first Internet Identity login. Alternatively, if the principal is already known, hardcode it directly.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      }
+    ]
+  },
+  "changedFiles": [
+    "backend/authorization/MixinAuthorization.mo",
+    "backend/authorization/access-control.mo",
+    "backend/main.mo",
+    "backend/migration.mo",
+    "build-request.json",
+    "caffeine.lock.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/AdminDashboardPage.tsx",
+    "frontend/src/utils/urlParams.ts",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

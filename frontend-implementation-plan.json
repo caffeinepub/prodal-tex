@@ -1,0 +1,29 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Restrict admin dashboard access to specific authorized identity",
+  "requirements": [
+    {
+      "id": "REQ-22",
+      "summary": "Display access denied message on Admin Dashboard when authenticated user is not the authorized owner, while allowing the specific principal linked to lakshaypgoyal@gmail.com or phone 9978625857 to view inquiries",
+      "acceptanceCriteria": [
+        "An authenticated user who is NOT the authorized owner sees an 'Access Denied' message instead of the inquiry table.",
+        "The authorized owner (principal linked to lakshaypgoyal@gmail.com or 9978625857) can log in and view the full inquiry table.",
+        "Unauthenticated users still see the login prompt (existing behavior preserved).",
+        "No inquiry data is leaked to unauthorized authenticated users."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/AdminDashboardPage.tsx",
+          "operation": "modify",
+          "description": "Modify the AdminDashboardPage component to call getAllInquiries and handle authorization errors. When the backend traps due to unauthorized access (the caller is not in the authorized principal list), catch the error and display an 'Access Denied' screen explaining that this dashboard is restricted to the site owner. Show the inquiry table only when the authenticated user's principal is authorized. Preserve the existing login prompt for unauthenticated users. Use the authorization component's AccessDeniedScreen pattern to display a clear message when authorization fails."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Update the useGetAllInquiries hook to properly handle authorization errors from the backend. When getAllInquiries traps (because the caller is unauthorized), the query should fail gracefully and allow the UI to detect the authorization failure. Ensure the error state is properly exposed so AdminDashboardPage can distinguish between authorization errors and other failures."
+        }
+      ]
+    }
+  ]
+}

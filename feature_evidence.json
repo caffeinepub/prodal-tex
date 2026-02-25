@@ -1,0 +1,25 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-on-the-admin-dashboard-page-admindashboardpage-tsx-after-the-user-authenticates-via-internet-identity-call-the-backend-isauthorized-check-or-handle-the-error-response-from-getinquiries-if-the-authenticated-user-s-principal-is-not-authorized-display-an-access-denied-message-explaining-that-this-dashboard-is-restricted-to-the-site-owner-and-do-not-render-the-inquiry-table-only-the-specific-authorized-principal-s-associated-with-lakshaypgoyal-gmail-com-or-phone-number-9978625857-should-see-the-inquiry-data",
+      "featureTitle": "On the Admin Dashboard page (`AdminDashboardPage.tsx`), after the user authenticates via Internet Identity, call the backend `isAuthorized` check (or handle the error response from `getInquiries`). If the authenticated user's principal is not authorized, display an 'Access Denied' message explaining that this dashboard is restricted to the site owner, and do not render the inquiry table. Only the specific authorized principal(s) associated with lakshaypgoyal@gmail.com or phone number 9978625857 should see the inquiry data.",
+      "files": [
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/pages/AdminDashboardPage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-22"
+      ],
+      "confidence": "high"
+    }
+  ]
+}
